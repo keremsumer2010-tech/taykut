@@ -1,7 +1,7 @@
 import { SectionHeader } from '@/components/SectionHeader';
+import { Picture } from '@/components/Picture';
 import { PART_IDS } from '@/content/schema';
 import { useT } from '@/lib/i18n';
-import nightImg from '@/assets/photos/gece-ahtapot.webp';
 import s from './Inspect.module.css';
 
 export function Inspect() {
@@ -13,14 +13,7 @@ export function Inspect() {
         <div className={`span-5 ${s.mediaCol}`}>
           {/* B10: 3B patlatılmış görünüm bu alana yerleşir. */}
           <figure className={s.figure} data-3d-slot="inspect">
-            <img
-              src={nightImg}
-              alt={sec.imageAlt}
-              width={1800}
-              height={1350}
-              loading="lazy"
-              decoding="async"
-            />
+            <Picture name="gece-ahtapot" alt={sec.imageAlt} sizes="(min-width: 1024px) 40vw, 100vw" />
             <figcaption className={`t-label ${s.caption}`}>
               <span>MRC 2026</span>
               <span>{t.missions.regions.mrc2026.steps[2]}</span>

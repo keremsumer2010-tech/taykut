@@ -1,18 +1,17 @@
 import { SectionHeader } from '@/components/SectionHeader';
+import { Picture, type MediaName } from '@/components/Picture';
 import { StatusBadge } from '@/components/bits';
 import { REGIONS, type Region } from '@/content/regions';
 import { useLang, useT } from '@/lib/i18n';
 import { formatLatLon, mapPosition } from '@/lib/geofmt';
 import { useMediaQuery } from '@/lib/useMediaQuery';
 import mapUrl from '@/assets/map/worldmap.svg';
-import arucoImg from '@/assets/photos/aruco-test.webp';
-import twinImg from '@/assets/photos/dijital-ikiz.webp';
 import s from './Missions.module.css';
 
 // Gerçek görseli olan bölgeler; diğerleri 3B sahne gelene kadar çizgili yer tutucu gösterir.
-const POSTERS: Partial<Record<Region['id'], { src: string; w: number; h: number }>> = {
-  mrc2026: { src: arucoImg, w: 1600, h: 1200 },
-  drumheller: { src: twinImg, w: 1480, h: 920 },
+const POSTERS: Partial<Record<Region['id'], MediaName>> = {
+  mrc2026: 'aruco-test',
+  drumheller: 'dijital-ikiz',
 };
 
 export function Missions() {
@@ -107,14 +106,7 @@ export function Missions() {
               <li key={r.id} id={`mission-${r.id}`} className={`${s.row} ${i % 2 ? s.rowFlip : ''}`}>
                 <div className={s.poster} data-3d-slot={`mission-${r.id}`} data-region={r.id}>
                   {poster ? (
-                    <img
-                      src={poster.src}
-                      alt=""
-                      width={poster.w}
-                      height={poster.h}
-                      loading="lazy"
-                      decoding="async"
-                    />
+                    <Picture name={poster} alt="" sizes="(min-width: 1024px) 55vw, 100vw" />
                   ) : (
                     <span className={s.topo} aria-hidden="true">
                       <span className={s.topoTarget} />

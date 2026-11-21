@@ -1,0 +1,35 @@
+{
+  "$comment": "Medya hattı yapılandırması (tools/media/build_media.py). crop: [sol, üst, sağ, alt] piksel (kaynak üzerinde). widths: üretilecek genişlikler (kaynağı aşanlar atlanır). grade: hafif renk derecelendirme. Kaynak seçimi: aynı karenin kopyalarından en büyük/en iyisi.",
+  "defaults": {
+    "widths": [480, 800, 1200, 1600],
+    "avifQuality": 40,
+    "webpQuality": 72,
+    "grade": { "contrast": 1.04, "saturation": 0.96 }
+  },
+  "images": [
+    {
+      "name": "hero-regolit",
+      "src": "kaynak/foto/summertech-gunduz-regolit.jpg",
+      "note": "rover-day.webp ile aynı kare; kullanıcının gönderdiği orijinal JPG seçildi"
+    },
+    {
+      "name": "gece-ahtapot",
+      "src": "kaynak/foto/rover-night.webp",
+      "note": "summertech-gece-ahtapot-tutucu.jpg ile aynı kare; daha büyük (1800 px) sürüm seçildi"
+    },
+    { "name": "aruco-test", "src": "kaynak/foto/rover-aruco.webp" },
+    {
+      "name": "dijital-ikiz",
+      "src": "kaynak/foto/digital-twin.webp",
+      "crop": [120, 140, 1600, 1060],
+      "grade": { "contrast": 1.0, "saturation": 1.0 },
+      "note": "Gazebo pencere çubuğu, arayüz ikonları ve oynatma düğmeleri kırpıldı; ekran görüntüsü olduğu için renk derecelendirme yok"
+    },
+    {
+      "name": "yer-istasyonu",
+      "src": "kaynak/foto/ground-station-poster.webp",
+      "grade": { "contrast": 1.0, "saturation": 1.0 },
+      "note": "Arayüz ekran görüntüsü: renk derecelendirme yok"
+    }
+  ]
+}

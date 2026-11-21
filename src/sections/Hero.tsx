@@ -1,9 +1,9 @@
 import { Button } from '@/components/Button';
+import { Picture } from '@/components/Picture';
 import { Icon } from '@/components/Icon';
 import { useLang, useT } from '@/lib/i18n';
 import { formatLatLon } from '@/lib/geofmt';
 import { sectionHref } from '@/lib/links';
-import heroImg from '@/assets/photos/hero-regolit.jpg';
 import s from './Hero.module.css';
 
 export function Hero() {
@@ -13,14 +13,7 @@ export function Hero() {
     <section id="top" className={s.hero} aria-labelledby="hero-title">
       {/* 3B sahne bu alana yerleşecek (B10). Şimdilik saha fotoğrafı. */}
       <div className={s.media} data-3d-slot="hero">
-        <img
-          src={heroImg}
-          alt={t.hero.imageAlt}
-          width={1200}
-          height={1600}
-          fetchPriority="high"
-          decoding="async"
-        />
+        <Picture name="hero-regolit" alt={t.hero.imageAlt} sizes="(min-width: 1024px) 58vw, 100vw" priority />
       </div>
 
       <div className={`container ${s.inner}`}>

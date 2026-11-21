@@ -2,10 +2,10 @@ import { useEffect, useRef } from 'react';
 import { SectionHeader } from '@/components/SectionHeader';
 import { Icon } from '@/components/Icon';
 import { useT } from '@/lib/i18n';
-import posterImg from '@/assets/photos/yer-istasyonu.webp';
 import s from './sections.module.css';
 
 const VIDEO = `${import.meta.env.BASE_URL}media/yer-istasyonu.mp4`;
+const POSTER = `${import.meta.env.BASE_URL}media/yer-istasyonu-1280.webp`;
 
 export function Station() {
   const t = useT();
@@ -46,7 +46,7 @@ export function Station() {
           <video
             ref={videoRef}
             src={VIDEO}
-            poster={posterImg}
+            poster={POSTER}
             muted
             loop
             playsInline

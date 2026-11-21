@@ -1,0 +1,38 @@
+{
+  "$comment": "OTOMATİK: tools/media/build_media.py — elle düzenleme.",
+  "hero-regolit": {
+    "width": 1200,
+    "height": 1600,
+    "widths": [480, 800, 1200],
+    "lqip": "data:image/webp;base64,UklGRn4AAABXRUJQVlA4IHIAAADwAwCdASoPABQAPu1iqU2ppaOiMAgBMB2JZQCsAB6LmWjMSDEd7t6wAPx3CIcaV+92gb6tiE/e6VxXfYAaxplMFFU/7LLrPigO4nxZeIYoB7Tkm7U8ZDLR4XnmywFr4iGMO4OZCv/rGMvj3UFQwp14AAA=",
+    "source": "kaynak/foto/summertech-gunduz-regolit.jpg"
+  },
+  "gece-ahtapot": {
+    "width": 1800,
+    "height": 1350,
+    "widths": [480, 800, 1200, 1600, 1800],
+    "lqip": "data:image/webp;base64,UklGRogAAABXRUJQVlA4IHwAAABwBACdASoUAA8APu1iqU2ppaOiMAgBMB2JQBahERhgcEcKxF/K7rNBDvR7AAD+8QviJH3sGpBhuif/vP/2Wt+LM7kVeFLiFqsxCilYlt/sRYNDml5YDYiYrClfxo0VwJjitggXdDaGT6bNTnSf6sc1qMw64q+1rw22AAAA",
+    "source": "kaynak/foto/rover-night.webp"
+  },
+  "aruco-test": {
+    "width": 1600,
+    "height": 1200,
+    "widths": [480, 800, 1200, 1600],
+    "lqip": "data:image/webp;base64,UklGRoYAAABXRUJQVlA4IHoAAAAwBACdASoUAA8APu1iqU2ppaOiMAgBMB2JZQCdMoACiCjS8cuVuRR6gIAA/unrizmpJrSi21w6fyE3iaHcbwhNnjfKWvRdVpk2Zzhtv/s5/OICUYrUiBkjiRGHMVMtTFca7+mWUOLeDskFBlQMkFF+g5CYvndzmmAAAA==",
+    "source": "kaynak/foto/rover-aruco.webp"
+  },
+  "dijital-ikiz": {
+    "width": 1480,
+    "height": 920,
+    "widths": [480, 800, 1200, 1480],
+    "lqip": "data:image/webp;base64,UklGRlgAAABXRUJQVlA4IEwAAABwAwCdASoUAAwAPu1mqk4ppaOiMAgBMB2JYwCdACHCLgeazZAA/rIs2wWBbF4qQyzkrIPKbD4XL60CT9twfc2qO1bgF0UBI4jJ4AAA",
+    "source": "kaynak/foto/digital-twin.webp"
+  },
+  "yer-istasyonu": {
+    "width": 1280,
+    "height": 898,
+    "widths": [480, 800, 1200, 1280],
+    "lqip": "data:image/webp;base64,UklGRnAAAABXRUJQVlA4IGQAAADwAwCdASoUAA4APu1iqU2ppaOiMAgBMB2JQAALlFw39QeF7k6FZuPgAP7kap+KCAjyL0oabNzL4/Zt8uVABgeAXv11P8ZlnC98vUiXLhRdhCFbBScc5WhdXmqTi4ni7mxwrWgA",
+    "source": "kaynak/foto/ground-station-poster.webp"
+  }
+}

@@ -1,23 +1,25 @@
 import { Button } from '@/components/Button';
+import { Picture, mediaInfo, type MediaName } from '@/components/Picture';
 import { HudFrame } from '@/components/HudFrame';
 import { Logo } from '@/components/Logo';
 import { useT } from '@/lib/i18n';
 import { Page } from '@/layout/Page';
 import { PageHeader } from './PageHeader';
 import logoUrl from '@/assets/brand/summertech-logo.png';
-import heroImg from '@/assets/photos/hero-regolit.jpg';
-import nightImg from '@/assets/photos/gece-ahtapot.webp';
-import twinImg from '@/assets/photos/dijital-ikiz.webp';
 import s from './pages.module.css';
 
 export function PressPage() {
   const t = useT();
   const p = t.pages.press;
-  const photos = [
-    { src: heroImg, alt: t.hero.imageAlt, w: 1200, h: 1600 },
-    { src: nightImg, alt: t.inspect.imageAlt, w: 1800, h: 1350 },
-    { src: twinImg, alt: t.engineering.twin.title, w: 1480, h: 920 },
+  const photos: { name: MediaName; alt: string }[] = [
+    { name: 'hero-regolit', alt: t.hero.imageAlt },
+    { name: 'gece-ahtapot', alt: t.inspect.imageAlt },
+    { name: 'dijital-ikiz', alt: t.engineering.twin.title },
   ];
+  const full = (n: MediaName) => {
+    const m = mediaInfo(n);
+    return `${import.meta.env.BASE_URL}media/${n}-${m.width}.webp`;
+  };
   return (
     <Page>
       <PageHeader kicker={t.footer.press} title={p.title} lead={p.lead} />
@@ -59,9 +61,9 @@ export function PressPage() {
           <p className="t-body">{p.photosNote}</p>
           <ul className={s.photos}>
             {photos.map((ph) => (
-              <li key={ph.src}>
-                <a href={ph.src} download>
-                  <img src={ph.src} alt={ph.alt} width={ph.w} height={ph.h} loading="lazy" />
+              <li key={ph.name}>
+                <a href={full(ph.name)} download>
+                  <Picture name={ph.name} alt={ph.alt} sizes="(min-width: 1024px) 33vw, 100vw" />
                 </a>
               </li>
             ))}

@@ -1,12 +1,11 @@
 import { KindNote } from '@/components/bits';
+import { Picture } from '@/components/Picture';
 import { SUMMERTECH, type Fact } from '@/content/facts';
 import type { Kind, SpecId } from '@/content/schema';
 import rover2027 from '@/content/rover2027.generated.json';
 import { formatFact, kindNote, useLang, useT } from '@/lib/i18n';
 import { Page } from '@/layout/Page';
 import { PageHeader } from './PageHeader';
-import heroImg from '@/assets/photos/hero-regolit.jpg';
-import twinImg from '@/assets/photos/dijital-ikiz.webp';
 import s from './pages.module.css';
 
 type Row = { id: SpecId; fact: Fact };
@@ -88,7 +87,12 @@ export function RoverPage() {
       <div className={`container ${s.body}`}>
         <section className={`grid ${s.roverBlock}`} aria-labelledby="st-title">
           <figure className={`span-5 ${s.roverFigure}`}>
-            <img src={heroImg} alt={t.hero.imageAlt} width={1200} height={1600} fetchPriority="high" />
+            <Picture
+              name="hero-regolit"
+              alt={t.hero.imageAlt}
+              sizes="(min-width: 1024px) 40vw, 100vw"
+              priority
+            />
           </figure>
           <div className={`span-7 ${s.roverText}`}>
             <h2 id="st-title" className="t-h2">
@@ -101,7 +105,7 @@ export function RoverPage() {
 
         <section className={`grid ${s.roverBlock}`} aria-labelledby="r27-title">
           <figure className={`span-5 ${s.roverFigure}`}>
-            <img src={twinImg} alt="" width={1480} height={920} loading="lazy" />
+            <Picture name="dijital-ikiz" alt="" sizes="(min-width: 1024px) 40vw, 100vw" />
           </figure>
           <div className={`span-7 ${s.roverText}`}>
             <h2 id="r27-title" className="t-h2">

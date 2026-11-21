@@ -4,6 +4,32 @@ En yeni bölüm en üstte. Her bölüm: plan, yapılanlar, ölçümler, sapmalar
 
 ---
 
+## B04 — Medya Hattı (2026-11-22)
+
+**Plan:** Kaynak fotoğraflardan tek komutla duyarlı AVIF/WebP setleri, kırpma ve hafif renk derecelendirme, EXIF temizliği, LQIP; `Picture` bileşeni; OG görselleri. Doğrulama: boyut testleri, EXIF testi, Lighthouse.
+
+### Yapılanlar
+- `tools/media/build_media.py` (+ `media.config.json`, `npm run assets:media`): kırpma, kontrast 1.04 / doygunluk 0.96 (ekran görüntülerinde kapalı), 480/800/1200/1600 px AVIF (q40) + WebP (q72), 20 px LQIP, hash önbelleği (ikinci çalıştırmada 5/5 "önbellekte"), meta veri yazılmaz. **Neden Python:** Akıllı Uygulama Denetimi sharp/libvips ve ffmpeg ikililerini engelliyor; Pillow 13 AVIF destekliyor.
+- Kaynak seçimi: eski klasördeki `rover-day`/`rover-night` kullanıcının fotoğraflarının kopyası çıktı (piksel farkı ortalama 2–3); gündüz için kullanıcının JPG'si, gece için daha büyük 1800 px sürüm seçildi. Dijital ikiz kırpması yapılandırmaya işlendi.
+- `src/components/Picture.tsx`: `<picture>` AVIF → WebP, `srcset` + gerçekçi `sizes`, en/boy (CLS), LQIP arka planı, `priority`. Tüm sayfalar geçirildi; `src/assets/photos` kaldırıldı.
+- `tools/media/og.py` (`npm run assets:og`): `public/og-tr.jpg`, `og-en.jpg` (1200×630; fotoğraf + TAYKUT + slogan + sonuç + logo plakası; Türkçe harfler latin-ext font parçasından).
+- Hero için HTML'de `<link rel="preload" as="image">` (srcset'in manifestle aynı olduğunu test denetliyor).
+
+### Ölçümler
+- Hero AVIF: 480 px 29 KB, 800 px 76 KB, 1200 px 155 KB (önce tek dosya 480 KB JPEG).
+- Lighthouse mobil: rover 78 → **94** (LCP 5,9 → 3,1 sn), ana sayfa **90** (LCP 3,5 sn), basın 100; masaüstü ana sayfa **100** (LCP 0,8 sn).
+- Birim test 21/21 ✓ (EXIF yok, tüm genişlikler mevcut, boyut sınırları, preload eşleşmesi) · e2e 47/47 ✓.
+
+### Mükemmellik turları
+1. AVIF q52'de hero 1200 px 251 KB → q40'a inildi (155 KB), görsel fark gözle seçilmiyor (regolit dokusu korunuyor).
+2. Ana sayfa mobil puanı görseller iyileşince 100'den 90'a **düştü**: önceden LCP öğesi metindi; şimdi doğru öğe (hero görseli) ölçülüyor. LCP dökümü: görsel yükleme gecikmesi 36 ms, ama **çizim gecikmesi** baskın → kök neden istemci tarafı çizim (görsel React çalışınca DOM'a giriyor). Preload tek başına yetmiyor.
+
+### Açık kalanlar
+- **Önceden HTML üretimi (prerender + hydrate)** B05'in ilk adımı: LCP'yi ve JS'siz okunabilirliği kökten çözer.
+- Video yeniden kodlanmadı (ffmpeg engelli); mevcut 1,6 MB MP4 `preload="none"` ile yalnız görünürken iner. Blender ile yeniden kodlama B22'de değerlendirilecek.
+
+---
+
 ## B03 — 3D'siz Eksiksiz Site (2026-11-21)
 
 **Plan:** Tüm bölümleri ve alt sayfaları gerçek içerik ve fotoğraflarla, 3D olmadan yayınlanabilir kalitede kur; 3D sahnelerin geleceği alanları (`data-3d-slot`) ayır. Doğrulama: e2e testleri (bölümler, gezinme, mobil menü, alt sayfalar, taşma), Lighthouse, üç ekran boyutunda görüntü.

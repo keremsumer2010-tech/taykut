@@ -1,10 +1,10 @@
 import { HudFrame } from '@/components/HudFrame';
+import { Picture } from '@/components/Picture';
 import { SectionHeader } from '@/components/SectionHeader';
 import { KindNote } from '@/components/bits';
 import { TWIN_PROOF } from '@/content/facts';
 import { SYSTEM_IDS } from '@/content/schema';
 import { formatFact, useLang, useT } from '@/lib/i18n';
-import twinImg from '@/assets/photos/dijital-ikiz.webp';
 import s from './sections.module.css';
 
 export function Engineering() {
@@ -47,7 +47,7 @@ export function Engineering() {
 
         <div className={`grid ${s.twin}`}>
           <figure className={`span-6 ${s.twinFigure}`}>
-            <img src={twinImg} alt="" width={1480} height={920} loading="lazy" decoding="async" />
+            <Picture name="dijital-ikiz" alt="" sizes="(min-width: 1024px) 50vw, 100vw" />
           </figure>
           <div className={`span-6 ${s.twinCopy}`}>
             <h3 className="t-h2">{sec.twin.title}</h3>
