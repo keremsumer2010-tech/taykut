@@ -13,7 +13,8 @@ export function Hero() {
     <section id="top" className={s.hero} aria-labelledby="hero-title">
       {/* 3B sahne bu alana yerleşecek (B10). Şimdilik saha fotoğrafı. */}
       <div className={s.media} data-3d-slot="hero">
-        <Picture name="hero-regolit" alt={t.hero.imageAlt} sizes="(min-width: 1024px) 58vw, 100vw" priority />
+        {/* Mobilde görsel koyu karartmanın altında arka plan: 55vw çözünürlük yeterli, LCP için küçük dosya (B05). */}
+        <Picture name="hero-regolit" alt={t.hero.imageAlt} sizes="(min-width: 1024px) 58vw, 55vw" priority />
       </div>
 
       <div className={`container ${s.inner}`}>

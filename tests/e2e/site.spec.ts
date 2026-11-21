@@ -33,7 +33,7 @@ test.describe('ana sayfa', () => {
   test('"Sponsor Ol" tek tıkla sponsor sayfasına götürür', async ({ page }) => {
     await page.goto('./?lang=tr');
     await page.getByRole('link', { name: 'Sponsor Ol' }).first().click();
-    await expect(page).toHaveURL(/\/sponsor\/\?lang=tr$/);
+    await expect(page).toHaveURL(/\/taykut\/sponsor\/$/);
     await expect(page.locator('h1')).toHaveText('Sponsorluk');
   });
 
@@ -56,8 +56,10 @@ test.describe('ana sayfa', () => {
     await expect(page).toHaveURL(/\/istasyon\//);
   });
 
-  test('İngilizce sürüm', async ({ page }) => {
-    await page.goto('./?lang=en');
+  test('İngilizce sürüm: /en/ yolu önceden üretilmiş İngilizce HTML', async ({ page }) => {
+    const res = await page.goto('./en/');
+    expect(await res?.text()).toContain('Become a Sponsor'); // JS çalışmadan önce HTML'de
+
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
     await expect(page.getByRole('link', { name: 'Become a Sponsor' }).first()).toBeVisible();
     await expect(page.locator('#numbers')).toContainText('4th');
@@ -99,7 +101,7 @@ test.describe('menü (her ekran boyutunda)', () => {
     await page.goto('./?lang=tr');
     await page.getByRole('button', { name: 'Menüyü aç' }).click();
     await page.getByRole('dialog').getByRole('link', { name: /Takım/ }).click();
-    await expect(page).toHaveURL(/\/takim\/\?lang=tr$/);
+    await expect(page).toHaveURL(/\/taykut\/takim\/$/);
     await page.getByRole('button', { name: 'Menüyü aç' }).click();
     await expect(page.getByRole('dialog').getByRole('link', { name: /Takım/ })).toHaveAttribute(
       'aria-current',

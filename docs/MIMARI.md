@@ -22,4 +22,17 @@ flowchart LR
 - `tools/`: derleme sonrası denetimler ve varlık hattı betikleri
 - `prompts/`: bölüm promptları; `PROMPT_TAYKUT_SITE.md`: anayasa
 
+## Sayfalar ve önceden HTML üretimi (B05)
+```mermaid
+flowchart LR
+  R[src/pages/registry.tsx<br/>sayfa → bileşen, başlık, açıklama] --> C[vite build<br/>istemci, HTML şablonları]
+  R --> S[vite build --ssr<br/>src/entry-server.tsx]
+  C --> P[tools/prerender.mjs]
+  S --> P
+  P --> D[dist/… ve dist/en/…<br/>gerçek HTML + meta + hreflang + JSON-LD + CSP]
+  D --> H[tarayıcı: hydrateRoot]
+```
+- Rota (`src/lib/route.ts`): `/taykut/<sayfa>/` Türkçe, `/taykut/en/<sayfa>/` İngilizce. Sunucuda `setRoute()` ile ayarlanır, tarayıcıda `location`'dan okunur.
+- Tarayıcıda farklı sonuç verebilecek her şey (ekran genişliği, depolama) ilk çizimde sabit değerle başlar, `useEffect`'te güncellenir (hydrate uyuşmazlığı yok).
+
 _(Sahne yaşam döngüsü, store ve zaman çizelgesi bağları ilgili bölümlerde eklenecek.)_

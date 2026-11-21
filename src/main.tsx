@@ -1,4 +1,3 @@
-import { App } from '@/App';
-import { mount } from '@/lib/mount';
+import { mountRoute } from '@/lib/mount';
 
-mount(App);
+mountRoute();

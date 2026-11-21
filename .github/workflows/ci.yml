@@ -29,6 +29,7 @@ jobs:
       - run: npm run build
       - run: npm run budget
       - run: npm run check:size
+      - run: npm run check:external
 
       - name: Playwright tarayıcı önbelleği
         uses: actions/cache@v6
@@ -38,6 +39,8 @@ jobs:
 
       - run: npx playwright install --with-deps chromium firefox webkit
       - run: npm run test:e2e
+      - name: Lighthouse (eşik denetimi)
+        run: npm run lhci
 
       - name: Playwright raporu
         if: failure()

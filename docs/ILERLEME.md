@@ -4,6 +4,34 @@ En yeni bölüm en üstte. Her bölüm: plan, yapılanlar, ölçümler, sapmalar
 
 ---
 
+## B05 — Önceden HTML Üretimi, SEO, Erişilebilirlik, Gizlilik (2026-11-22)
+
+**Plan:** B04'te bulunan kök nedeni (içerik JS çalışınca çiziliyor) önceden HTML üretimiyle çöz; meta/OG/hreflang/JSON-LD/sitemap; axe testleri; CSP; dış istek denetimi; Lighthouse CI.
+
+### Yapılanlar
+- **Önceden üretim:** `src/entry-server.tsx` (SSR) + `tools/prerender.mjs`: 2 dil × 8 sayfa gerçek HTML; tarayıcı `hydrateRoot` ile bağlanır. Tüm sayfalar tek kayıttan (`src/pages/registry.tsx`) gelir; HTML girişleri tek `src/main.tsx`.
+- **Dil URL tabanlı:** `/taykut/en/…` (yeni `src/lib/route.ts`). Dil düğmesi diğer dilin aynı sayfasına gider; `?lang=` eski bağlantıları yönlendirilir.
+- **Hydrate tutarlılığı:** `useMediaQuery` ilk çizimde sabit değer (HTML ile aynı), sonra gerçek değer; aktif sayfa sunucuda da bilinir (`setRoute`). Konsol hatası denetleyen testler 0 uyuşmazlık gösteriyor.
+- **SEO:** sayfa başına başlık/açıklama, kanonik, `hreflang` (tr, en, x-default), Open Graph + Twitter kartı (OG görseli dile göre), JSON-LD (`SportsTeam` → `EducationalOrganization`), `sitemap.xml` (14 adres), `robots.txt`; 404 `noindex`.
+- **Erişilebilirlik:** axe testleri (8 sayfa × 2 dil + menü), reduced-motion ve klavye testleri. `docs/ERISILEBILIRLIK.md`.
+- **Gizlilik/güvenlik:** CSP (yalnız kendi kaynaklarımız), `referrer` politikası, `tools/check-external.mjs` (CI).
+- **CI:** `check:external` ve `lhci` (Lighthouse eşik denetimi, adım özeti tablosu) eklendi.
+
+### Bulunan ve düzeltilen hatalar
+1. **Görünen metin ≠ erişilebilir ad** (axe, WCAG 2.5.3): dil düğmesi "TR / EN" görünüp "Dil: English" diye okunuyordu; harita pinleri "01" görünüp "1. Ev Üssü" → adlar görünen metni içeriyor.
+2. **Hareket azaltma tercihinde video oynuyordu:** önceden üretilen HTML'deki `autoplay` yüzünden tarayıcı JS'den önce oynatıyordu (yük altında ara sıra kırılan test sayesinde bulundu) → `autoplay` kaldırıldı, oynatma görünürlüğe bağlı ve yalnız JS ile.
+3. Lighthouse betiği Windows'ta önizleme sunucusunu kapatamıyordu (kabuk alt süreci) → kabuksuz doğrudan Node.
+
+### Ölçümler
+- e2e **127/127** ✓ (yerel; 2 bilinçli atlama: WebKit Tab, mobil klavye) · birim 21/21 ✓ · dış kaynak 0.
+- Lighthouse mobil (yerel, `npm run lhci`): ana 94, en 95, rover 91, istasyon 94, mühendislik/takım/sponsor/basın 99–100; **erişilebilirlik, en iyi uygulamalar, SEO 8 sayfada 100**. FCP 0,8–0,9 sn (içerik JS'siz görünüyor). Masaüstü ana sayfa 100 (LCP 0,7 sn).
+
+### Açık kalanlar
+- Mobil LCP ~3 sn: kalan süre yavaş ağ simülasyonunda fontlarla bant genişliği yarışı; B22 performans cilasında (font önceliği, kritik alt küme) ele alınacak.
+- Ekran okuyucuyla elle deneme yapılmadı (doğrulanmadı).
+
+---
+
 ## Ara düzenleme — Menü ve sayfa yapısı (2026-11-22, kullanıcı isteği)
 
 **İstek:** "Siteyle ilgili başlıklar ana sayfadan ziyade yandaki 3 çizgiden yeni yerde açılsın."

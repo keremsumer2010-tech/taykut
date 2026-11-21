@@ -54,7 +54,10 @@ export function Missions() {
                 return (
                   <li key={r.id} className={s.pin} style={{ left: `${p.x}%`, top: `${p.y}%` }}>
                     {wide ? (
-                      <a href={`#mission-${r.id}`} aria-label={`${r.order}. ${sec.regions[r.id].name}`}>
+                      <a
+                        href={`#mission-${r.id}`}
+                        aria-label={`${String(r.order).padStart(2, '0')} ${sec.regions[r.id].name}`}
+                      >
                         {marker}
                       </a>
                     ) : (
@@ -66,7 +69,11 @@ export function Missions() {
             </ol>
           </figure>
           {mars?.geo && wide && (
-            <a className={s.mars} href="#mission-mars" aria-label={`${mars.order}. ${sec.regions.mars.name}`}>
+            <a
+              className={s.mars}
+              href="#mission-mars"
+              aria-label={`${String(mars.order).padStart(2, '0')} · MARS, ${sec.regions.mars.name}`}
+            >
               <span className={s.marsDisc} aria-hidden="true">
                 <span className={s.pinDot} data-status="dream" />
               </span>

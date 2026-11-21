@@ -12,13 +12,20 @@ export function Station({ page = false }: { page?: boolean }) {
   const sec = t.station;
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  // Hareket azaltma tercihinde video otomatik oynamaz; poster görünür.
+  // HTML'de autoplay YOK: önceden üretilen sayfada tarayıcı JS gelmeden oynatmaya başlıyordu.
+  // Oynatma yalnız burada, hareket azaltma kapalıysa ve video ekrana girince başlar.
   useEffect(() => {
     const v = videoRef.current;
-    if (!v) return;
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduce) v.removeAttribute('autoplay');
-    else void v.play().catch(() => undefined);
+    if (!v || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (e?.isIntersecting) void v.play().catch(() => undefined);
+        else v.pause();
+      },
+      { threshold: 0.25 },
+    );
+    io.observe(v);
+    return () => io.disconnect();
   }, []);
 
   return (
@@ -51,7 +58,6 @@ export function Station({ page = false }: { page?: boolean }) {
             muted
             loop
             playsInline
-            autoPlay
             preload="none"
             aria-label={sec.videoAlt}
             width={1280}
