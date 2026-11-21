@@ -242,3 +242,26 @@
   gap: var(--space-5);
   padding-top: 120px;
 }
+
+/* Boş logo duvarı: ilk sponsoru davet eder */
+.wall {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+  gap: var(--space-3);
+}
+
+.wallSlot {
+  display: grid;
+  place-items: center;
+  min-height: 96px;
+  padding: var(--space-3);
+  border: var(--line-w) dashed var(--line-strong);
+  color: var(--text-2);
+  text-align: center;
+}
+
+@media (max-width: 639px) {
+  .wallSlot:not(:first-child) {
+    display: none;
+  }
+}

@@ -21,6 +21,13 @@
   }
 }
 
+/* Menü açıkken çubuk opak: arkadaki sayfa metni görünmesin */
+.navOpen,
+.navOpen.navCompact {
+  background: var(--bg);
+  backdrop-filter: none;
+}
+
 .navInner {
   display: flex;
   align-items: center;
@@ -57,41 +64,6 @@
   letter-spacing: 0.02em;
 }
 
-.navLinks {
-  display: none;
-  margin-inline-start: auto;
-  gap: var(--space-6);
-}
-
-.navLinks a {
-  position: relative;
-  color: var(--text-2);
-  text-decoration: none;
-  padding-block: var(--space-3);
-  transition: color var(--dur-2);
-}
-
-.navLinks a::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 6px;
-  height: 1px;
-  background: var(--signal);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform var(--dur-3) var(--ease-out-expo);
-}
-
-.navLinks a:hover {
-  color: var(--text);
-}
-
-.navLinks a:hover::after {
-  transform: scaleX(1);
-}
-
 .navActions {
   display: flex;
   align-items: center;
@@ -117,31 +89,41 @@
 }
 
 .menuButton {
-  display: inline-grid;
-  place-items: center;
-  width: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  min-width: 44px;
   height: 44px;
+  padding: 0 var(--space-3);
   border: var(--line-w) solid var(--line-strong);
   background: transparent;
   color: var(--text);
   border-radius: var(--radius-1);
+  transition:
+    border-color var(--dur-2),
+    background-color var(--dur-2);
+}
+
+.menuButton:hover,
+.menuButtonOpen {
+  border-color: var(--text);
+  background: var(--surface-2);
+}
+
+.menuWord {
+  display: none;
+}
+
+@media (min-width: 640px) {
+  .menuWord {
+    display: inline;
+  }
 }
 
 @media (min-width: 640px) {
   .navCta {
     display: inline-flex;
-  }
-}
-
-@media (min-width: 1024px) {
-  .navLinks {
-    display: flex;
-  }
-  .navActions {
-    margin-inline-start: var(--space-4);
-  }
-  .menuButton {
-    display: none;
   }
 }
 
@@ -170,53 +152,141 @@
   color: var(--line-strong);
 }
 
-/* ================= Mobil menü ================= */
-.mobileMenu {
+/* ================= Tam ekran menü ================= */
+.menu {
   position: fixed;
   inset: 60px 0 0;
-  background: var(--bg);
-  padding: var(--space-7) var(--gutter);
+  z-index: var(--z-nav);
   overflow-y: auto;
+  background: radial-gradient(ellipse at 85% 10%, rgb(1 35 74 / 0.45), transparent 60%), var(--bg);
+  border-top: var(--line-w) solid var(--line);
+  animation: menuIn var(--dur-3) var(--ease-out-expo);
 }
 
-.mobileMenu[hidden] {
+.menu[hidden] {
   display: none;
 }
 
-.mobileLinks {
-  display: flex;
-  flex-direction: column;
+@keyframes menuIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
 }
 
-.mobileLink {
-  display: flex;
-  align-items: baseline;
-  gap: var(--space-4);
-  padding-block: var(--space-4);
-  border-bottom: var(--line-w) solid var(--line);
-  font-family: var(--font-display);
-  font-stretch: var(--stretch-display);
-  font-size: var(--step-3);
-  font-weight: 700;
-  text-decoration: none;
-  color: var(--text);
-}
-
-.mobileLink .t-label,
-.mobileLink span:first-child {
-  color: var(--signal);
-  min-width: 2.5ch;
-}
-
-.mobileLinkCta {
-  color: var(--accent);
-  border-bottom: 0;
+.menuGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-8);
+  padding-block: var(--space-7) var(--space-8);
 }
 
 @media (min-width: 1024px) {
-  .mobileMenu {
-    display: none !important;
+  .menuGrid {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
+    column-gap: var(--space-9);
+    align-items: end;
+    min-height: calc(100svh - 60px);
   }
+}
+
+.menuLinks ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: var(--line-w) solid var(--line);
+}
+
+.menuLink {
+  display: grid;
+  grid-template-columns: 3rem 1fr auto;
+  align-items: center;
+  gap: var(--space-4);
+  min-height: 64px;
+  padding-block: var(--space-3);
+  border-bottom: var(--line-w) solid var(--line);
+  color: var(--text);
+  text-decoration: none;
+  transition: color var(--dur-2);
+}
+
+.menuIndex {
+  color: var(--signal);
+}
+
+.menuText {
+  font-family: var(--font-display);
+  font-stretch: var(--stretch-display);
+  font-weight: 700;
+  font-size: var(--step-4);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  transition: transform var(--dur-3) var(--ease-out-expo);
+}
+
+.menuArrow {
+  color: var(--text-3);
+  transition:
+    transform var(--dur-3) var(--ease-out-expo),
+    color var(--dur-2);
+}
+
+.menuLink:hover .menuText,
+.menuLink:focus-visible .menuText {
+  transform: translateX(8px);
+}
+
+.menuLink:hover .menuArrow,
+.menuLink:focus-visible .menuArrow {
+  color: var(--signal);
+  transform: translate(3px, -3px);
+}
+
+.menuLink[aria-current='page'] .menuText {
+  color: var(--signal);
+}
+
+.menuLinkCta .menuText {
+  color: var(--accent);
+}
+
+@media (min-width: 1024px) {
+  .menuText {
+    font-size: var(--step-5);
+  }
+}
+
+.menuAside {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  color: var(--text-2);
+}
+
+.menuMeta {
+  margin: var(--space-3) 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-5);
+}
+
+.menuMeta a {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 44px;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.menuMeta a:hover {
+  color: var(--signal);
+}
+
+.menuCoords {
+  color: var(--text-3);
 }
 
 /* ================= Bölüm göstergesi ================= */

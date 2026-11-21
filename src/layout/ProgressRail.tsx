@@ -10,11 +10,7 @@ export function ProgressRail() {
     { id: 'rover', label: t.inspect.kicker },
     { id: 'missions', label: t.missions.kicker },
     { id: 'numbers', label: t.stats.kicker },
-    { id: 'engineering', label: t.engineering.kicker },
-    { id: 'station', label: t.station.kicker },
-    { id: 'journey', label: t.journey.kicker },
-    { id: 'team', label: t.team.kicker },
-    { id: 'sponsor', label: t.sponsor.kicker },
+    { id: 'sponsor-cta', label: t.sponsor.kicker },
   ];
   const [active, setActive] = useState<SectionId | null>(null);
 

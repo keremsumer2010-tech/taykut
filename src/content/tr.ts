@@ -17,6 +17,7 @@ export const tr = {
     switchTo: 'English',
     externalLink: '(yeni sekmede açılır)',
     scrollDown: 'Aşağı kaydır',
+    menu: 'Menü',
   },
   kinds: {
     result: 'yarışma sonucu',

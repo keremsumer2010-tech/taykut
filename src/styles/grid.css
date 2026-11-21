@@ -85,3 +85,8 @@
   background: rgb(209 91 9 / 0.07);
   border-inline: 1px solid rgb(209 91 9 / 0.18);
 }
+
+/* Ayrı sayfa olarak açılan bölüm: sabit üst çubuğun altından başlar */
+.section.pageTop {
+  padding-top: calc(72px + var(--space-8));
+}

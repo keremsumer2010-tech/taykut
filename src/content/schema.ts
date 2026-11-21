@@ -39,6 +39,7 @@ export interface Content {
     switchTo: string; // "English" / "Türkçe"
     externalLink: string; // "(yeni sekmede açılır)"
     scrollDown: string;
+    menu: string;
   };
   kinds: Record<Kind, string>;
   /** Dile göre değişen birimler (facts.ts'teki `unit` anahtarları). "ordinal" i18n.ts'te biçimlenir. */

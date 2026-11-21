@@ -56,6 +56,13 @@ export function SponsorPage() {
           </ol>
         </section>
 
+        <div className={s.wall} aria-label={sec.emptyWall}>
+          <span className={`t-label ${s.wallSlot}`}>{sec.emptyWall}</span>
+          <span className={s.wallSlot} aria-hidden="true" />
+          <span className={s.wallSlot} aria-hidden="true" />
+          <span className={s.wallSlot} aria-hidden="true" />
+        </div>
+
         <section aria-labelledby="place-title" className={`grid ${s.block}`}>
           <h2 id="place-title" className="span-5 t-h2">
             {p.placementTitle}

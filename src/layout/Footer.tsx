@@ -28,10 +28,11 @@ export function Footer() {
 
         <div className={`span-3 ${s.footerCol}`}>
           <h2 className="t-label">TAYKUT</h2>
-          <a href={sectionHref('rover')}>{t.nav.rover}</a>
+          <a href={pageHref('rover')}>{t.nav.rover}</a>
           <a href={sectionHref('missions')}>{t.nav.missions}</a>
-          <a href={pageHref('rover')}>{t.nav.engineering}</a>
-          <a href={sectionHref('team')}>{t.nav.team}</a>
+          <a href={pageHref('muhendislik')}>{t.nav.engineering}</a>
+          <a href={pageHref('istasyon')}>{t.nav.station}</a>
+          <a href={pageHref('takim')}>{t.nav.team}</a>
           <a href={pageHref('sponsor')}>{t.nav.sponsor}</a>
           <a href={pageHref('basin')}>{t.footer.press}</a>
           <a href={CONTACT.instagramUrl} target="_blank" rel="noopener noreferrer">

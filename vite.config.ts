@@ -15,12 +15,15 @@ export default defineConfig({
     // Fontlar CSS'e base64 gömülmesin: unicode-range ile yalnız gerektiğinde insinler.
     assetsInlineLimit: (file) => (file.endsWith('.woff2') ? false : undefined),
     rollupOptions: {
-      // Çok sayfalı yapı: alt sayfalar ilgili bölümlerde buraya eklenecek.
+      // Çok sayfalı yapı: menüdeki her başlık ayrı bir HTML girişidir.
       input: {
         main: fileURLToPath(new URL('./index.html', import.meta.url)),
         sponsor: fileURLToPath(new URL('./sponsor/index.html', import.meta.url)),
         rover: fileURLToPath(new URL('./rover/index.html', import.meta.url)),
         basin: fileURLToPath(new URL('./basin/index.html', import.meta.url)),
+        muhendislik: fileURLToPath(new URL('./muhendislik/index.html', import.meta.url)),
+        istasyon: fileURLToPath(new URL('./istasyon/index.html', import.meta.url)),
+        takim: fileURLToPath(new URL('./takim/index.html', import.meta.url)),
         notfound: fileURLToPath(new URL('./404.html', import.meta.url)),
       },
     },

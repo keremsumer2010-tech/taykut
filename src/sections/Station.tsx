@@ -7,7 +7,7 @@ import s from './sections.module.css';
 const VIDEO = `${import.meta.env.BASE_URL}media/yer-istasyonu.mp4`;
 const POSTER = `${import.meta.env.BASE_URL}media/yer-istasyonu-1280.webp`;
 
-export function Station() {
+export function Station({ page = false }: { page?: boolean }) {
   const t = useT();
   const sec = t.station;
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -22,10 +22,11 @@ export function Station() {
   }, []);
 
   return (
-    <section id="station" className={`section ${s.band}`} aria-labelledby="station-title">
+    <section id="station" className={`section ${page ? 'pageTop' : s.band}`} aria-labelledby="station-title">
       <div className="container grid">
         <div className={`span-5 ${s.stationCopy}`}>
           <SectionHeader
+            as={page ? 'h1' : 'h2'}
             id="station-title"
             index={sec.index}
             kicker={sec.kicker}

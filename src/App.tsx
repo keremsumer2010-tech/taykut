@@ -1,15 +1,12 @@
 import { Page } from '@/layout/Page';
-import { Engineering } from '@/sections/Engineering';
 import { Hero } from '@/sections/Hero';
 import { Inspect } from '@/sections/Inspect';
-import { Journey } from '@/sections/Journey';
 import { Missions } from '@/sections/Missions';
-import { Sponsor } from '@/sections/Sponsor';
-import { Station } from '@/sections/Station';
+import { SponsorCta } from '@/sections/SponsorCta';
 import { Stats } from '@/sections/Stats';
-import { Team } from '@/sections/Team';
 
-/** Ana sayfa. Bölüm sırası anayasadaki bilgi mimarisini izler. */
+/** Ana sayfa: sinematik akış (açılış → rover → Dünya turu ve görevler → rakamlar → sponsor).
+ *  Mühendislik, Yer İstasyonu, Takım, Sponsor, Rover ve Basın menüden ayrı sayfalarda açılır. */
 export function App() {
   return (
     <Page rail>
@@ -17,11 +14,7 @@ export function App() {
       <Inspect />
       <Missions />
       <Stats />
-      <Engineering />
-      <Station />
-      <Journey />
-      <Team />
-      <Sponsor />
+      <SponsorCta />
     </Page>
   );
 }

@@ -3,7 +3,7 @@ import { Picture } from '@/components/Picture';
 import { Icon } from '@/components/Icon';
 import { useLang, useT } from '@/lib/i18n';
 import { formatLatLon } from '@/lib/geofmt';
-import { sectionHref } from '@/lib/links';
+import { pageHref, sectionHref } from '@/lib/links';
 import s from './Hero.module.css';
 
 export function Hero() {
@@ -32,7 +32,7 @@ export function Hero() {
           </p>
           <p className={`t-lead ${s.lead}`}>{t.hero.lead}</p>
           <div className="cluster">
-            <Button href={sectionHref('sponsor')} icon="arrow-right">
+            <Button href={pageHref('sponsor')} icon="arrow-right">
               {t.hero.primary.label}
             </Button>
             <Button href={sectionHref('missions')} variant="secondary">

@@ -7,7 +7,8 @@ import { SYSTEM_IDS } from '@/content/schema';
 import { formatFact, useLang, useT } from '@/lib/i18n';
 import s from './sections.module.css';
 
-export function Engineering() {
+export function Engineering({ page = false }: { page?: boolean }) {
+  const Sub = page ? 'h2' : 'h3';
   const t = useT();
   const lang = useLang();
   const sec = t.engineering;
@@ -15,9 +16,14 @@ export function Engineering() {
   const right = formatFact(TWIN_PROOF.rockerRightDeg, lang);
   const diff = formatFact(TWIN_PROOF.mismatchDeg, lang);
   return (
-    <section id="engineering" className="section" aria-labelledby="engineering-title">
+    <section
+      id="engineering"
+      className={`section ${page ? 'pageTop' : ''}`}
+      aria-labelledby="engineering-title"
+    >
       <div className="container">
         <SectionHeader
+          as={page ? 'h1' : 'h2'}
           id="engineering-title"
           index={sec.index}
           kicker={sec.kicker}
@@ -31,7 +37,7 @@ export function Engineering() {
             return (
               <li key={id} className={s.system}>
                 <span className={`t-label ${s.systemIndex}`}>{String(i + 1).padStart(2, '0')}</span>
-                <h3 className="t-h3">{sys.name}</h3>
+                <Sub className="t-h3">{sys.name}</Sub>
                 <p className="t-small">{sys.body}</p>
                 <ul className={s.points}>
                   {sys.points.map((p) => (
@@ -50,7 +56,7 @@ export function Engineering() {
             <Picture name="dijital-ikiz" alt="" sizes="(min-width: 1024px) 50vw, 100vw" />
           </figure>
           <div className={`span-6 ${s.twinCopy}`}>
-            <h3 className="t-h2">{sec.twin.title}</h3>
+            <Sub className="t-h2">{sec.twin.title}</Sub>
             <p className="t-body">{sec.twin.body}</p>
             <HudFrame accent title="DIFF · DRUMHELLER" meta={<KindNote>{t.kinds.simulated}</KindNote>}>
               <div className={s.proofGrid}>

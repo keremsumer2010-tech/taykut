@@ -4,6 +4,28 @@ En yeni bölüm en üstte. Her bölüm: plan, yapılanlar, ölçümler, sapmalar
 
 ---
 
+## Ara düzenleme — Menü ve sayfa yapısı (2026-11-22, kullanıcı isteği)
+
+**İstek:** "Siteyle ilgili başlıklar ana sayfadan ziyade yandaki 3 çizgiden yeni yerde açılsın."
+
+### Yapılanlar
+- Menü (3 çizgi + "MENÜ" yazısı) artık **her ekran boyutunda**; masaüstü bağlantı satırı kaldırıldı. Tam ekran menü: büyük numaralı başlıklar (Rover, Görevler, Mühendislik, Yer İstasyonu, Takım, Sponsor Ol), yanda kısa tanıtım + Basın kiti + Instagram + koordinat. Açık olan sayfa `aria-current` ile vurgulu.
+- Başlıklar **ayrı sayfalarda** açılıyor: `/rover/`, `/muhendislik/`, `/istasyon/`, `/takim/` (takım + yolculuk), `/sponsor/` (logo duvarı buraya taşındı), `/basin/`. "Görevler" ana sayfanın sinematik Dünya turunun parçası olduğu için ana sayfa bölümüne gidiyor.
+- Ana sayfa sinematik akışa indi: Hero → Rover → Görevler → Rakamlar → Sponsor çağrısı + 3 keşif kartı (ayrı sayfalara). Kullanılmayan ana sayfa Sponsor bölümü kaldırıldı.
+- Bölüm bileşenleri `page` modunda: başlık `h1`, alt başlıklar `h2`, üst çubuğun altından başlar.
+
+### Bulunan ve düzeltilen hatalar
+- **Menü görünmüyordu:** üst çubuk kaydırınca `backdrop-filter` kazanıyor; bu, içindeki `position: fixed` menüyü 60 px'lik çubuğa hapsediyordu (panel 0 yükseklik). İlk test menüyü sayfa en üstteyken açtığı için yakalayamadı → menü çubuğun dışına taşındı + **regresyon testi** (kaydırdıktan sonra panel yüksekliği > 300 px).
+- Menü açıkken yarı saydam çubuğun arkasından sayfa metni görünüyordu → menü açıkken çubuk opak.
+- Ayrı sayfalarda başlık sırası atlıyordu (h1 → h3; Lighthouse a11y 98) → sayfa modunda alt başlıklar h2 (100).
+
+### Ölçümler
+- e2e 66/66 ✓ (6 ayrı sayfa için açılış/tek h1/konsol/taşma; menü açma-kapama, odak, sayfa işareti, kaydırılmış menü).
+- Lighthouse mobil: ana sayfa 92/100/100/100, mühendislik 100/100/100/100, takım 100/100/100/100, istasyon 96/100/100/100.
+- Ekran görüntüleri: `docs/ilerleme/B04/menu-chromium.jpg`, `menu-mobile.jpg`.
+
+---
+
 ## B04 — Medya Hattı (2026-11-22)
 
 **Plan:** Kaynak fotoğraflardan tek komutla duyarlı AVIF/WebP setleri, kırpma ve hafif renk derecelendirme, EXIF temizliği, LQIP; `Picture` bileşeni; OG görselleri. Doğrulama: boyut testleri, EXIF testi, Lighthouse.

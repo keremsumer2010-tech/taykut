@@ -17,6 +17,7 @@ export const en = {
     switchTo: 'Türkçe',
     externalLink: '(opens in a new tab)',
     scrollDown: 'Scroll down',
+    menu: 'Menu',
   },
   kinds: {
     result: 'competition result',
