@@ -60,6 +60,8 @@ export interface Content {
     primary: Cta;
     secondary: Cta;
     imageAlt: string;
+    /** Alt şerit: yarışma sonucu satırı */
+    strip: string;
   };
   inspect: SectionText & {
     parts: Record<PartId, { name: string; spec: string }>;
@@ -109,6 +111,41 @@ export interface Content {
     license: string;
     shortcuts: string;
     rights: string;
+    press: string;
+  };
+  pages: {
+    sponsor: {
+      title: string;
+      lead: string;
+      placementTitle: string;
+      placements: string[];
+      faqTitle: string;
+      faq: { q: string; a: string }[];
+    };
+    rover: {
+      title: string;
+      lead: string;
+      summertechTitle: string;
+      summertechNote: string;
+      rover2027Title: string;
+      rover2027Note: string;
+      specs: Record<SpecId, string>;
+      /** Parametre dosyasındaki teknik anahtarların okunur karşılıkları */
+      enums: Record<string, string>;
+    };
+    press: {
+      title: string;
+      lead: string;
+      shortTitle: string;
+      short: string;
+      longTitle: string;
+      long: string;
+      logoTitle: string;
+      logoNote: string;
+      downloadLogo: string;
+      photosTitle: string;
+      photosNote: string;
+    };
   };
   notFound: { title: string; body: string; home: string };
   fallback: { noWebgl: string };
@@ -139,6 +176,29 @@ export type StatId = (typeof STAT_IDS)[number];
 
 export const SYSTEM_IDS = ['mechanical', 'electronics', 'software', 'arm', 'science'] as const;
 export type SystemId = (typeof SYSTEM_IDS)[number];
+
+export const SPEC_IDS = [
+  'envelope',
+  'wheels',
+  'wheelDiameter',
+  'motors',
+  'speed',
+  'runtime',
+  'range',
+  'battery',
+  'averageCurrent',
+  'suspension',
+  'steering',
+  'mass',
+  'wheelbase',
+  'trackWidth',
+  'bodySize',
+  'groundClearance',
+  'motor',
+  'maxSpeed',
+  'voltage',
+] as const;
+export type SpecId = (typeof SPEC_IDS)[number];
 
 export const TIER_IDS = ['drumheller', 'alpine', 'regolith', 'friend'] as const;
 export type TierId = (typeof TIER_IDS)[number];

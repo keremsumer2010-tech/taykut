@@ -1,0 +1,392 @@
+/* Küçük bölümlerin ortak stilleri: Rakamlar, Mühendislik, İstasyon, Yolculuk, Takım, Sponsor */
+
+/* Hafif ayrışan zemin bandı (ritim için) */
+.band {
+  background:
+    linear-gradient(var(--line), var(--line)) top / 100% 1px no-repeat,
+    linear-gradient(var(--line), var(--line)) bottom / 100% 1px no-repeat,
+    var(--surface-1);
+}
+
+/* ---------- Rakamlar ---------- */
+.stats {
+  margin-top: var(--space-8);
+  row-gap: var(--space-7);
+}
+
+/* ---------- Mühendislik ---------- */
+.systems {
+  margin: var(--space-8) 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr;
+  border-top: var(--line-w) solid var(--line);
+}
+
+@media (min-width: 768px) {
+  .systems {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1280px) {
+  .systems {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+.system {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-5) var(--space-5) var(--space-6) 0;
+  border-bottom: var(--line-w) solid var(--line);
+}
+
+@media (min-width: 768px) {
+  .system {
+    padding-inline: var(--space-5);
+    border-inline-start: var(--line-w) solid var(--line);
+  }
+}
+
+.systemIndex {
+  color: var(--signal);
+}
+
+.points {
+  margin: var(--space-2) 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.points li {
+  position: relative;
+  padding-inline-start: var(--space-4);
+  color: var(--text);
+}
+
+.points li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.62em;
+  width: 6px;
+  height: 1px;
+  background: var(--signal);
+}
+
+.twin {
+  margin-top: var(--space-9);
+  align-items: center;
+}
+
+.twinFigure {
+  margin: 0;
+  aspect-ratio: 16 / 11;
+  overflow: hidden;
+  border: var(--line-w) solid var(--line);
+}
+
+.twinFigure img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.twinCopy {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.proofGrid {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  justify-content: start;
+  gap: var(--space-6);
+}
+
+.proofGrid .t-label {
+  color: var(--text-3);
+  margin-bottom: var(--space-2);
+}
+
+.proofText {
+  margin-top: var(--space-4);
+}
+
+@media (max-width: 480px) {
+  .proofGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* ---------- İstasyon ---------- */
+.stationCopy {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.features {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.features li {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+}
+
+.features svg {
+  flex: none;
+  margin-top: 3px;
+  color: var(--signal);
+}
+
+.honesty {
+  padding-inline-start: var(--space-4);
+  border-inline-start: 2px solid var(--line-strong);
+}
+
+.stationMedia {
+  margin: 0;
+  grid-column: 1 / -1;
+  border: var(--line-w) solid var(--line);
+  background: var(--bg);
+  overflow: hidden;
+}
+
+.stationMedia video {
+  width: 100%;
+  height: auto;
+}
+
+@media (min-width: 1024px) {
+  .stationMedia {
+    grid-column: 7 / span 6;
+    align-self: center;
+  }
+}
+
+/* ---------- Yolculuk ---------- */
+.timeline {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  position: relative;
+}
+
+@media (min-width: 1024px) {
+  .timeline {
+    grid-column: 7 / span 6;
+  }
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: 8px;
+  bottom: 8px;
+  width: 1px;
+  background: var(--line-strong);
+}
+
+.event {
+  position: relative;
+  display: grid;
+  gap: var(--space-2);
+  padding: 0 0 var(--space-7) var(--space-6);
+}
+
+.event::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 6px;
+  width: 11px;
+  height: 11px;
+  background: var(--bg);
+  border: 1.5px solid var(--line-strong);
+}
+
+.eventDate {
+  color: var(--text-2);
+}
+
+.eventBody {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.eventNow::before {
+  background: var(--signal);
+  border-color: var(--signal);
+  box-shadow: 0 0 0 5px rgb(231 173 1 / 0.18);
+}
+
+.eventFuture::before {
+  border-style: dashed;
+}
+
+.eventFuture .eventDate,
+.eventFuture h3 {
+  color: var(--text-2);
+}
+
+.nowTag {
+  display: inline-block;
+  margin-inline-start: var(--space-3);
+  padding: 2px var(--space-2);
+  background: var(--signal);
+  color: var(--bg);
+  vertical-align: middle;
+}
+
+/* ---------- Takım ---------- */
+.team {
+  margin: var(--space-8) 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr));
+  gap: var(--column-gap);
+}
+
+.member {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-5);
+  border: var(--line-w) solid var(--line);
+  background: var(--surface-1);
+  color: var(--text-2);
+  transition: border-color var(--dur-2);
+}
+
+.member:hover {
+  border-color: var(--line-strong);
+}
+
+.emblem {
+  display: inline-grid;
+  width: 64px;
+  height: 64px;
+  place-items: center;
+  margin-bottom: var(--space-4);
+  color: var(--text-2);
+  border: var(--line-w) solid var(--line);
+}
+
+.memberLead .emblem {
+  color: var(--signal);
+  border-color: var(--signal-dim);
+}
+
+.memberAdvisor {
+  background: transparent;
+  border-style: dashed;
+}
+
+.memberIndex {
+  position: absolute;
+  top: var(--space-4);
+  right: var(--space-4);
+  color: var(--text-3);
+}
+
+.memberName {
+  font-family: var(--font-display);
+  font-stretch: var(--stretch-display);
+  font-size: var(--step-1);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--text);
+}
+
+/* ---------- Sponsor ---------- */
+.sponsor {
+  background: radial-gradient(ellipse at 80% 0%, rgb(209 91 9 / 0.1), transparent 55%);
+}
+
+.why {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  align-self: end;
+}
+
+.why h3 {
+  color: var(--accent);
+  margin-bottom: var(--space-2);
+}
+
+.tiers {
+  margin: var(--space-8) 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  gap: var(--column-gap);
+}
+
+.tier {
+  height: 100%;
+}
+
+.tier > div {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.tierIndex {
+  color: var(--signal);
+}
+
+.wall {
+  margin-top: var(--space-7);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+  gap: var(--space-3);
+}
+
+.wallSlot {
+  display: grid;
+  place-items: center;
+  min-height: 96px;
+  border: var(--line-w) dashed var(--line-strong);
+  color: var(--text-2);
+  text-align: center;
+  padding: var(--space-3);
+}
+
+@media (max-width: 639px) {
+  .wallSlot:not(:first-child) {
+    display: none;
+  }
+}
+
+.contact {
+  margin-top: var(--space-8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}

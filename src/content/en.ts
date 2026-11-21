@@ -50,6 +50,7 @@ export const en = {
     secondary: { label: 'See the Missions' },
     imageAlt:
       'The SummerTech rover on a light gray gravel course: yellow TPU wheels, inverted-V aluminum rocker arms, a drill arm reaching forward and a white sample box on top.',
+    strip: 'MRC 2026 · 4th overall',
   },
   inspect: {
     index: '01',
@@ -304,6 +305,87 @@ export const en = {
     license: 'Code is MIT licensed. Photos, logo and text © TAYKUT.',
     shortcuts: 'Keyboard shortcuts',
     rights: 'All rights reserved.',
+    press: 'Press kit',
+  },
+  pages: {
+    sponsor: {
+      title: 'Sponsorship',
+      lead: 'Supporting TAYKUT means supporting high school students who put a real rover on the field. Every kind of support helps.',
+      placementTitle: 'Where does your logo appear?',
+      placements: [
+        'On the rover body and arm',
+        'On our team wear',
+        'On this site and in our press kit',
+        'In competition design reports and presentations',
+        'In our social media posts',
+      ],
+      faqTitle: 'Common questions',
+      faq: [
+        {
+          q: 'Do you only accept money?',
+          a: 'No. Motors, sensors, filament, aluminum, CNC or laser cutting, travel and mentoring are just as valuable.',
+        },
+        {
+          q: 'Are the tiers fixed?',
+          a: 'The tiers are a starting point. We agree on visibility together based on the kind of support.',
+        },
+        {
+          q: 'Where does the support go?',
+          a: 'Rover parts, manufacturing, and competition fees and travel. After every competition we send our supporters a short report.',
+        },
+      ],
+    },
+    rover: {
+      title: 'Our rovers',
+      lead: 'The rover we competed with and the new rover we are designing now. Every value says what kind it is: measured, calculated, estimated or a design target.',
+      summertechTitle: 'SummerTech Rover · MRC 2026',
+      summertechNote:
+        'The rover that placed 4th overall at the Micro Rover Challenge 2026 finals. Values come from the team’s technical documentation.',
+      rover2027Title: 'TAYKUT 2027 rover · in design',
+      rover2027Note:
+        'This rover is still in design and simulation. Values are pulled automatically from the digital twin’s parameter file and will change as the design matures.',
+      specs: {
+        envelope: 'Size',
+        wheels: 'Wheels',
+        wheelDiameter: 'Wheel diameter',
+        motors: 'Motors',
+        speed: 'Cruise speed',
+        runtime: 'Runtime',
+        range: 'Range',
+        battery: 'Battery',
+        averageCurrent: 'Average current',
+        suspension: 'Suspension',
+        steering: 'Steering',
+        mass: 'Total mass',
+        wheelbase: 'Wheelbase',
+        trackWidth: 'Track width',
+        bodySize: 'Body size',
+        groundClearance: 'Ground clearance',
+        motor: 'Motor',
+        maxSpeed: 'Top speed',
+        voltage: 'Voltage',
+      },
+      enums: {
+        rocker_bogie_differential: 'Rocker-bogie + differential',
+        skid_steer: 'Skid-steer (turns in place)',
+        DJI_M3508_P19_24V: 'DJI M3508 P19 (24 V), direct drive',
+      },
+    },
+    press: {
+      title: 'Press kit',
+      lead: 'Everything you need to write about TAYKUT. Feel free to use the text as is.',
+      shortTitle: 'Short bio',
+      short:
+        'TAYKUT is a rover team from ASELSAN Vocational and Technical Anatolian High School in Ankara, Türkiye. The team of high school students designed and built its rover from scratch and placed fourth overall at the Micro Rover Challenge 2026 finals. Its next goal is CIRC 2027 in Canada.',
+      longTitle: 'Long bio',
+      long: 'TAYKUT is a high school rover team founded in November 2025 and now based at ASELSAN Vocational and Technical Anatolian High School in Ankara, Türkiye. Its first rover, SummerTech, is an autonomous planetary rover that fits in 45×45 cm, rides on a spring-free differential rocker suspension and runs on a three-board architecture of Pixhawk, Raspberry Pi and Arduino Mega. The rover placed first in the application video round of the Micro Rover Challenge 2026 and fourth overall at the finals. The team is now developing a six-wheel rover in a digital twin built from real lidar data of Drumheller and testing it with a ground station it wrote itself. The goal is the CIRC competition in Canada in August 2027.',
+      logoTitle: 'Logo',
+      logoNote:
+        'Use the logo without changing its proportions or colors. On dark backgrounds, place it on a white plate.',
+      downloadLogo: 'Download logo (PNG)',
+      photosTitle: 'Photos',
+      photosNote: 'Photos © TAYKUT. Free to use in news coverage with credit.',
+    },
   },
   notFound: {
     title: 'The rover drove off course.',

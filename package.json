@@ -24,7 +24,8 @@
     "tokens": "node tools/design/palette.mjs",
     "fonts": "uv run --no-project --with fonttools --with brotli python tools/fonts/subset.py",
     "shots": "node tools/shots.mjs",
-    "content:rover": "node tools/rover/extract_params.mjs"
+    "content:rover": "node tools/rover/extract_params.mjs",
+    "assets:map": "node tools/map/build_worldmap.mjs"
   },
   "dependencies": {
     "@fontsource-variable/archivo": "5.3.0",
@@ -46,6 +47,7 @@
     "eslint-plugin-react-hooks": "7.1.1",
     "globals": "17.14.0",
     "jsdom": "31.0.1",
+    "lighthouse": "13.6.0",
     "prettier": "3.10.1",
     "typescript": "6.0.3",
     "typescript-eslint": "8.73.0",

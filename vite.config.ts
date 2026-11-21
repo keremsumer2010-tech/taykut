@@ -18,6 +18,10 @@ export default defineConfig({
       // Çok sayfalı yapı: alt sayfalar ilgili bölümlerde buraya eklenecek.
       input: {
         main: fileURLToPath(new URL('./index.html', import.meta.url)),
+        sponsor: fileURLToPath(new URL('./sponsor/index.html', import.meta.url)),
+        rover: fileURLToPath(new URL('./rover/index.html', import.meta.url)),
+        basin: fileURLToPath(new URL('./basin/index.html', import.meta.url)),
+        notfound: fileURLToPath(new URL('./404.html', import.meta.url)),
       },
     },
   },

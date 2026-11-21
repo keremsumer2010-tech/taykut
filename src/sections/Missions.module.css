@@ -1,0 +1,345 @@
+/* ---------- Harita ---------- */
+.mapWrap {
+  position: relative;
+  margin-top: var(--space-8);
+  padding: var(--space-5);
+  border: var(--line-w) solid var(--line);
+  background: radial-gradient(ellipse at 50% 40%, rgb(1 35 74 / 0.35), transparent 70%), var(--surface-1);
+}
+
+.map {
+  position: relative;
+  margin: 0;
+}
+
+.map img {
+  width: 100%;
+  height: auto;
+}
+
+.pins {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pin {
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+
+.pin a {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  text-decoration: none;
+}
+
+.pinDot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background: var(--c, var(--text-2));
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--c, var(--text-2)) 22%, transparent);
+  vertical-align: middle;
+}
+
+.pinDot[data-status='competed'] {
+  --c: var(--signal);
+}
+
+.pinDot[data-status='target'] {
+  --c: var(--accent);
+}
+
+.pinDot[data-status='dream'] {
+  --c: var(--text-2);
+  background: transparent;
+  border: 1.5px solid var(--c);
+}
+
+.pin a:hover .pinDot,
+.pin a:focus-visible .pinDot {
+  box-shadow: 0 0 0 7px color-mix(in srgb, var(--c, var(--text-2)) 30%, transparent);
+}
+
+.pinLabel {
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.mars {
+  position: absolute;
+  right: var(--space-5);
+  bottom: var(--space-5);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  color: var(--text-2);
+  text-decoration: none;
+  min-height: 44px;
+}
+
+.marsDisc {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #b5603a, #5a2716 70%);
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-5);
+  margin-top: var(--space-4);
+  color: var(--text-2);
+}
+
+.legend > span {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.pinStatic {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 14px;
+  height: 14px;
+}
+
+@media (max-width: 640px) {
+  .mapWrap {
+    padding: var(--space-3);
+  }
+  /* Pinler yalnız görsel işaret; dokunma bölge listesinden */
+  .pins {
+    pointer-events: none;
+  }
+  .pin a {
+    width: 14px;
+    height: 14px;
+  }
+  .pinDot {
+    width: 7px;
+    height: 7px;
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--c, var(--text-2)) 22%, transparent);
+  }
+  .pinLabel {
+    display: none;
+  }
+  .chips {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-2);
+    margin: var(--space-4) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .chips a {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: 44px;
+    padding: 0 var(--space-3);
+    border: var(--line-w) solid var(--line);
+    color: var(--text);
+    text-decoration: none;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}
+
+/* ---------- Görev satırları ---------- */
+.list {
+  margin: var(--space-9) 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-9);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+  scroll-margin-top: 96px;
+}
+
+@media (min-width: 1024px) {
+  .row {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--column-gap);
+    align-items: center;
+  }
+  .poster {
+    grid-column: 1 / span 7;
+  }
+  .body {
+    grid-column: 9 / span 4;
+  }
+  .rowFlip .poster {
+    grid-column: 6 / span 7;
+    order: 2;
+  }
+  .rowFlip .body {
+    grid-column: 1 / span 4;
+  }
+}
+
+.poster {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border: var(--line-w) solid var(--line);
+  --tint: var(--surface-2);
+  background:
+    repeating-linear-gradient(-45deg, transparent 0 14px, rgb(255 255 255 / 0.025) 14px 15px),
+    radial-gradient(ellipse at 60% 40%, var(--tint), var(--surface-1) 75%);
+}
+
+/* Bölge renk kimlikleri (B12/B18'de sahnelerle aynı) */
+.poster[data-region='ankara'] {
+  --tint: #3a2f22;
+}
+.poster[data-region='alps'] {
+  --tint: #22324a;
+}
+.poster[data-region='utah'] {
+  --tint: #4a2418;
+}
+.poster[data-region='mars'] {
+  --tint: #4f2a1c;
+}
+
+.poster img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.posterPlaceholder {
+  position: absolute;
+  left: var(--space-4);
+  bottom: var(--space-4);
+  color: var(--text-2);
+}
+
+/* 3B sahne gelene kadar: topoğrafik harita kartı (eş yükselti çizgileri + hedef işareti) */
+.topo {
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-radial-gradient(
+      ellipse 120% 80% at 32% 62%,
+      transparent 0 21px,
+      rgb(255 255 255 / 0.06) 21px 22px
+    ),
+    repeating-radial-gradient(
+      ellipse 90% 110% at 78% 28%,
+      transparent 0 27px,
+      rgb(255 255 255 / 0.045) 27px 28px
+    );
+  mask-image: radial-gradient(ellipse at 50% 50%, #000 40%, transparent 95%);
+}
+
+.topoTarget {
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  width: 56px;
+  height: 56px;
+  transform: translate(-50%, -50%);
+  border: 1px solid var(--signal);
+  border-radius: 50%;
+}
+
+.topoTarget::before,
+.topoTarget::after {
+  content: '';
+  position: absolute;
+  background: var(--signal);
+}
+
+.topoTarget::before {
+  left: 50%;
+  top: -14px;
+  bottom: -14px;
+  width: 1px;
+}
+
+.topoTarget::after {
+  top: 50%;
+  left: -14px;
+  right: -14px;
+  height: 1px;
+}
+
+.topoName {
+  position: absolute;
+  left: var(--space-4);
+  top: var(--space-4);
+  font-family: var(--font-display);
+  font-stretch: var(--stretch-display);
+  font-weight: 700;
+  font-size: var(--step-2);
+  color: var(--text-2);
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.order {
+  color: var(--signal);
+  font-size: var(--step-0);
+}
+
+.place {
+  color: var(--text-2);
+}
+
+.place .t-mono {
+  color: var(--text-3);
+}
+
+.steps {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: var(--line-w) solid var(--line);
+}
+
+.steps li {
+  display: flex;
+  gap: var(--space-3);
+  align-items: baseline;
+  padding-block: var(--space-3);
+  border-bottom: var(--line-w) solid var(--line);
+  color: var(--text);
+}
+
+.steps .t-label {
+  color: var(--text-3);
+}

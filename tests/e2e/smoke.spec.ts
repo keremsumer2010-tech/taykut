@@ -22,6 +22,7 @@ test('ana sayfa açılır, konsol ve ağ temiz', async ({ page }) => {
 
 test('mobilde yatay taşma yok', async ({ page }) => {
   await page.goto('./');
-  const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
-  expect(overflow).toBeLessThanOrEqual(0);
+  const vw = page.viewportSize()?.width ?? 0;
+  const sw = await page.evaluate(() => document.documentElement.scrollWidth);
+  expect(sw).toBeLessThanOrEqual(vw);
 });

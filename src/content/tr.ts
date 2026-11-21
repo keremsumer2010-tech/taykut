@@ -50,6 +50,7 @@ export const tr = {
     secondary: { label: 'Görevleri Gör' },
     imageAlt:
       'SummerTech rover açık gri çakıllı parkurda: sarı TPU tekerlekler, ters V biçimli alüminyum rocker kolları, öne uzanan sondajlı kol ve üstte beyaz numune kutusu.',
+    strip: 'MRC 2026 · Genel 4.',
   },
   inspect: {
     index: '01',
@@ -284,6 +285,87 @@ export const tr = {
     license: 'Kod MIT lisanslıdır. Fotoğraflar, logo ve metinler © TAYKUT.',
     shortcuts: 'Klavye kısayolları',
     rights: 'Tüm hakları saklıdır.',
+    press: 'Basın kiti',
+  },
+  pages: {
+    sponsor: {
+      title: 'Sponsorluk',
+      lead: 'TAYKUT’u desteklemek, gerçek bir rover’ı sahaya çıkaran lise öğrencilerini desteklemek demek. Desteğin her türü işimize yarar.',
+      placementTitle: 'Logonuz nerede görünür?',
+      placements: [
+        'Rover gövdesi ve kolu üzerinde',
+        'Takım kıyafetinde',
+        'Bu sitede ve basın kitinde',
+        'Yarışma tasarım raporlarında ve sunumlarda',
+        'Sosyal medya paylaşımlarımızda',
+      ],
+      faqTitle: 'Sık sorulanlar',
+      faq: [
+        {
+          q: 'Sadece para mı kabul ediyorsunuz?',
+          a: 'Hayır. Motor, sensör, filament, alüminyum, CNC veya lazer kesim, ulaşım ve mentorluk desteği de çok değerli.',
+        },
+        {
+          q: 'Kademeler kesin mi?',
+          a: 'Kademeler bir başlangıç noktası. Destek türünüze göre görünürlüğü birlikte belirleriz.',
+        },
+        {
+          q: 'Desteğimiz nereye harcanıyor?',
+          a: 'Rover parçalarına, üretime ve yarışma kayıt ile ulaşım masraflarına. Her yarışma sonunda destekçilerimize kısa bir rapor göndeririz.',
+        },
+      ],
+    },
+    rover: {
+      title: 'Rover’larımız',
+      lead: 'Yarıştığımız rover ve şu anda tasarladığımız yeni rover. Her değerin yanında türü yazıyor: ölçülen, hesaplanan, tahmin ya da tasarım hedefi.',
+      summertechTitle: 'SummerTech Rover · MRC 2026',
+      summertechNote:
+        'Micro Rover Challenge 2026 finalinde genel 4. olan rover. Değerler takımın teknik dokümanından.',
+      rover2027Title: 'TAYKUT 2027 rover’ı · tasarım aşamasında',
+      rover2027Note:
+        'Bu rover henüz tasarım ve simülasyon aşamasında. Değerler dijital ikizin parametre dosyasından otomatik alınır ve tasarım ilerledikçe değişir.',
+      specs: {
+        envelope: 'Hacim',
+        wheels: 'Tekerlek sayısı',
+        wheelDiameter: 'Tekerlek çapı',
+        motors: 'Motorlar',
+        speed: 'Seyir hızı',
+        runtime: 'Çalışma süresi',
+        range: 'Menzil',
+        battery: 'Batarya',
+        averageCurrent: 'Ortalama akım',
+        suspension: 'Süspansiyon',
+        steering: 'Yönlendirme',
+        mass: 'Toplam kütle',
+        wheelbase: 'Dingil mesafesi',
+        trackWidth: 'İz genişliği',
+        bodySize: 'Gövde ölçüsü',
+        groundClearance: 'Yerden yükseklik',
+        motor: 'Motor',
+        maxSpeed: 'Azami hız',
+        voltage: 'Gerilim',
+      },
+      enums: {
+        rocker_bogie_differential: 'Rocker-bogie + diferansiyel',
+        skid_steer: 'Skid-steer (yerinde dönüş)',
+        DJI_M3508_P19_24V: 'DJI M3508 P19 (24 V), tekere doğrudan',
+      },
+    },
+    press: {
+      title: 'Basın kiti',
+      lead: 'TAYKUT hakkında yazacaksanız ihtiyacınız olan her şey burada. Metinleri olduğu gibi kullanabilirsiniz.',
+      shortTitle: 'Kısa tanıtım',
+      short:
+        'TAYKUT, Ankara ASELSAN Mesleki ve Teknik Anadolu Lisesi’nden bir rover takımıdır. Lise öğrencilerinden oluşan takım, rover’ını sıfırdan tasarlayıp üretti ve Micro Rover Challenge 2026 finalinde genel dördüncü oldu. Takımın yeni hedefi Kanada’daki CIRC 2027.',
+      longTitle: 'Uzun tanıtım',
+      long: 'TAYKUT, Kasım 2025’te kurulan ve bugün Ankara ASELSAN Mesleki ve Teknik Anadolu Lisesi’nde çalışan bir lise rover takımıdır. Takımın ilk rover’ı SummerTech; 45×45 cm’ye sığan, yaysız diferansiyelli rocker süspansiyonlu, Pixhawk, Raspberry Pi ve Arduino Mega’dan oluşan üç kartlı bir mimariye sahip otonom bir gezegen aracıdır. Rover, Micro Rover Challenge 2026’nın başvuru videosu değerlendirmesinde birinci, finalinde genel dördüncü oldu. Takım şimdi altı tekerlekli yeni rover’ını, Drumheller’ın gerçek lidar verisinden kurduğu dijital ikizde geliştiriyor ve kendi yazdığı web yer istasyonuyla test ediyor. Hedef, Ağustos 2027’de Kanada’da düzenlenecek CIRC yarışması.',
+      logoTitle: 'Logo',
+      logoNote:
+        'Logoyu oranını ve renklerini değiştirmeden kullanın. Koyu zeminde beyaz plaka üzerinde gösterin.',
+      downloadLogo: 'Logoyu indir (PNG)',
+      photosTitle: 'Fotoğraflar',
+      photosNote: 'Fotoğraflar © TAYKUT. Haberlerde kaynak gösterilerek kullanılabilir.',
+    },
   },
   notFound: {
     title: 'Rover rotadan çıktı.',

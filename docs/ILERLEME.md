@@ -4,6 +4,42 @@ En yeni bölüm en üstte. Her bölüm: plan, yapılanlar, ölçümler, sapmalar
 
 ---
 
+## B03 — 3D'siz Eksiksiz Site (2026-11-21)
+
+**Plan:** Tüm bölümleri ve alt sayfaları gerçek içerik ve fotoğraflarla, 3D olmadan yayınlanabilir kalitede kur; 3D sahnelerin geleceği alanları (`data-3d-slot`) ayır. Doğrulama: e2e testleri (bölümler, gezinme, mobil menü, alt sayfalar, taşma), Lighthouse, üç ekran boyutunda görüntü.
+
+### Yapılanlar
+- Düzen: `Nav` (masaüstü bağlantılar + TR/EN + her zaman görünür "Sponsor Ol"; mobilde odak tuzaklı, Esc ile kapanan tam ekran menü), `ProgressRail` (≥ 1280 px), `Footer` (atıflar `attributions.ts`'ten), `Page`, "İçeriğe atla".
+- Bölümler: Hero (gerçek saha fotoğrafı, telemetri şeridi), Rover (12 parça), Görevler (kendi SVG dünya haritası + 6 görev satırı; 3D gelene kadar topoğrafik kart), Rakamlar (tür notlarıyla), Mühendislik (5 alt sistem + dijital ikiz kanıt paneli), Yer İstasyonu (gerçek istasyon videosu, dürüstlük notu), Yolculuk, Takım (7 üye + danışman, kendi çizdiğimiz amblemler), Sponsor.
+- Alt sayfalar: `/sponsor/` (kademeler, logo yerleşimi, SSS), `/rover/` (iki rover'ın tür etiketli teknik tablosu; 2027 değerleri dijital ikizden otomatik), `/basin/` (kısa/uzun tanıtım, logo indirme, fotoğraflar), `404.html`.
+- `tools/map/build_worldmap.mjs`: Natural Earth (kamu malı) verisinden 47 KB SVG harita (JS paketine girmez).
+- Dijital ikiz görseli Gazebo arayüzünden temizlendi (pencere çubuğu, ikonlar, oynatma düğmeleri kırpıldı; kırpma B04'te medya yapılandırmasına işlenecek).
+- Sayfa başına başlık (`setPageTitle`), çok sayfalı Vite derlemesi.
+
+### Ölçümler
+- Birim 17/17 ✓ · e2e 47/47 ✓ (yerel; Firefox CI'da).
+- Lighthouse (mobil, yerel önizleme): ana sayfa **100 / 100 / 100 / 100** (LCP 0,9 sn, CLS 0,016); sponsor 100/100/100/100; basın 100/100/100/100; rover **78**/100/100/100 (LCP 5,9 sn → B04). Masaüstü ana sayfa 96/100/100/100 (LCP 1,4 sn).
+- İlk yük (gzip) 98,6 KB / 250 KB; fontlar 158 KB / 180 KB.
+
+### Mükemmellik turları
+1. **Masaüstü görüntüler:** bölüm boşlukları ~350 px'ti → `--section-gap` küçültüldü; 3D'siz bölge kutuları sönüktü → topoğrafik kart (eş yükselti çizgileri + hedef işareti + bölge adı); tembel görseller tam sayfa çekimde boş çıkıyordu → `tools/shots.mjs` sayfayı kaydırıp çekiyor (anlık kaydırma ile).
+2. **Mobil görüntüler:** `span-7`/`span-3` ızgara sınıfları tanımsızdı, Rover metni 1/12 sütuna sıkışıyordu → tanımlandı + **regresyon testi** (`grid.test.ts`); boş logo duvarı mobilde 4 kutu → 1 kutu.
+3. **Testlerin bulduğu gerçek hatalar:** (a) mobilde Drumheller ve Utah pinleri üst üste biniyordu, dokunulamıyordu → mobilde pinler görsel işaret, gezinme bölge listesinden; (b) bu listenin `nowrap` metni sayfayı 412 → 639 px'e itiyordu ve mobil tarayıcı sayfayı uzaklaştırıyordu; eski taşma testi bunu **yakalayamıyordu** (`innerWidth` de büyüyor) → test gerçek ekran genişliğine (`viewportSize`) göre yeniden yazıldı, ızgara `minmax(0, 1fr)`.
+4. **Lighthouse:** mobil pinler 14 px dokunma hedefi sayılıyordu (a11y 96) → mobilde bağlantı değil, `aria-hidden` görsel → 100. Rover sayfasında üstteki görsel `loading="lazy"` idi → öncelikli yapıldı; asıl sorun 480 KB tek boyutlu JPEG (B04).
+5. Hero'daki "MRC 2026 · 4. GENEL" Türkçede ters sıralıydı ve koordinatlar İngilizce yazılıyordu → içerikten "Genel 4.", koordinat dile göre (K/D).
+
+### Eleştiri listesi cevapları
+- *3D olmadan ilk ekran etkileyici mi?* Evet: gerçek rover fotoğrafı, dev geniş başlık, telemetri şeridi (ekran görüntüleri `docs/ilerleme/B03/`).
+- *Sponsor bilgisine kaç tıkla?* 1 (üst çubuk ve hero düğmesi; e2e testli).
+- *Mobilde başparmakla ulaşılabilir mi?* Dokunma hedefleri ≥ 44 px; mobil menü ve bölge listesi.
+
+### Doğrulanmayanlar / açık kalanlar
+- Rover sayfası mobil LCP 5,9 sn: B04'te duyarlı görsellerle çözülecek.
+- Lighthouse Windows'ta Playwright Chromium'u başlatamıyor (Akıllı Uygulama Denetimi); ölçümler yüklü Chrome ile alındı. CI'da Lighthouse B05'te kurulacak.
+- `?grid=1` ızgara kaplaması henüz bağlanmadı.
+
+---
+
 ## B02 — İçerik (2026-11-21)
 
 **Plan:** Tüm metinleri tip güvenli tek yerde topla (TR/EN), dilden bağımsız gerçekleri kaynak ve tür etiketleriyle ayır, kaynak belgesini doldur, dil altyapısını kur, 2027 rover değerlerini dijital ikizden otomatik çıkar. Doğrulama: tip denetimi (TR/EN şema eşitliği), içerik testleri, kaynak anahtarı testi, dil değişimi e2e.

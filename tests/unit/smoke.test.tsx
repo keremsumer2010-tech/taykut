@@ -2,10 +2,10 @@ import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { App } from '@/App';
 
-describe('App (B00 iskelet)', () => {
-  it('TAYKUT başlığını gösterir', () => {
+describe('App', () => {
+  it('tek h1 olarak TAYKUT ve dil düğmesi gösterir', () => {
     render(<App />);
     expect(screen.getByRole('heading', { level: 1 }).textContent).toBe('TAYKUT');
-    expect(screen.getByRole('button').textContent).toMatch(/English|Türkçe/);
+    expect(screen.getAllByRole('button', { name: /English|Türkçe/ }).length).toBeGreaterThan(0);
   });
 });

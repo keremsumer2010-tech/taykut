@@ -33,10 +33,16 @@ export function detectLang(
 let current: Lang = typeof window === 'undefined' ? 'tr' : detectLang();
 const listeners = new Set<() => void>();
 
+/** Alt sayfalar kendi başlığını verir (ör. "Sponsorluk — TAYKUT"). */
+let titleFn: ((t: Content) => string) | null = null;
+export function setPageTitle(fn: (t: Content) => string) {
+  titleFn = fn;
+}
+
 function applyDocument(lang: Lang) {
   const t = DICTS[lang];
   document.documentElement.lang = lang;
-  document.title = t.meta.title;
+  document.title = titleFn ? titleFn(t) : t.meta.title;
   document.querySelector('meta[name="description"]')?.setAttribute('content', t.meta.description);
 }
 

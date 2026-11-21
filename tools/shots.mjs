@@ -33,6 +33,18 @@ for (const url of urls) {
     const page = await browser.newPage({ viewport, deviceScaleFactor: 1 });
     await page.goto(url, { waitUntil: 'networkidle' });
     await page.evaluate(() => globalThis.document.fonts.ready);
+    if (full) {
+      // Tembel yüklenen görseller için sayfayı adım adım kaydır, sonra başa dön.
+      await page.evaluate(async () => {
+        const w = globalThis;
+        for (let y = 0; y < w.document.body.scrollHeight; y += w.innerHeight * 0.8) {
+          w.scrollTo({ top: y, behavior: 'instant' });
+          await new Promise((r) => setTimeout(r, 120));
+        }
+        w.scrollTo({ top: 0, behavior: 'instant' });
+      });
+      await page.waitForLoadState('networkidle');
+    }
     const file = join(outDir, `${slug}-${name}.png`);
     await page.screenshot({ path: file, fullPage: full });
     console.log(`✓ ${file}`);

@@ -1,16 +1,4 @@
-import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
 import { App } from '@/App';
-import { initLang } from '@/lib/i18n';
-import '@/styles/base.css';
+import { mount } from '@/lib/mount';
 
-initLang();
-
-const root = document.getElementById('root');
-if (!root) throw new Error('#root bulunamadı');
-
-createRoot(root).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-);
+mount(App);
