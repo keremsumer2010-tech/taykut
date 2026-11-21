@@ -1,0 +1,15 @@
+/* Beyaz plaka: koyu zeminde logonun okunması için.
+   font-size = logo yüksekliği (Logo.tsx); yatay pay 0.4em, dikey pay 0.25em (inline stil). */
+.plate {
+  display: inline-flex;
+  align-items: center;
+  padding-inline: 0.4em;
+  background: #fff;
+  border-radius: var(--radius-1);
+  line-height: 0;
+}
+
+.plate img {
+  width: auto;
+  max-width: none;
+}

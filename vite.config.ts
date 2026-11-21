@@ -12,6 +12,8 @@ export default defineConfig({
   build: {
     target: 'es2022',
     sourcemap: true,
+    // Fontlar CSS'e base64 gömülmesin: unicode-range ile yalnız gerektiğinde insinler.
+    assetsInlineLimit: (file) => (file.endsWith('.woff2') ? false : undefined),
     rollupOptions: {
       // Çok sayfalı yapı: alt sayfalar ilgili bölümlerde buraya eklenecek.
       input: {
@@ -19,6 +21,7 @@ export default defineConfig({
       },
     },
   },
-  server: { port: 5173, strictPort: true },
+  // 5173 aynı makinedeki başka bir projeyle çakıştığı için 5174.
+  server: { port: 5174, strictPort: true },
   preview: { port: 4173, strictPort: true },
 });

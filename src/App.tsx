@@ -1,9 +1,11 @@
-// Geçici sayfa (B00): sadece yayın hattını kanıtlar. Tasarım B01'de, içerik B02–B03'te gelir.
+// Geçici sayfa: yayın hattını ve tasarım sistemini kanıtlar. Gerçek içerik B02–B03'te gelir.
+import s from './App.module.css';
+
 export function App() {
   return (
-    <main className="placeholder">
-      <h1>TAYKUT</h1>
-      <p>Yakında</p>
+    <main className={s.placeholder}>
+      <h1 className="t-hero">TAYKUT</h1>
+      <p className="t-label">Yapım aşamasında</p>
     </main>
   );
 }

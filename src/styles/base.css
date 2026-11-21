@@ -1,43 +1,101 @@
-/* Geçici temel stil (B00). B01 tasarım sistemi bunun yerini alır. */
+@import './fonts.css';
+@import './tokens.css';
+@import './typography.css';
+@import './grid.css';
+
+/* ---------- Sıfırlama (modern, minimum) ---------- */
 *,
 *::before,
 *::after {
   box-sizing: border-box;
 }
 
-html,
+* {
+  margin: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  hanging-punctuation: first last;
+}
+
 body {
-  margin: 0;
-  min-height: 100%;
-  background: #07090c;
-  color: #e8ecf1;
-  font-family:
-    system-ui,
-    -apple-system,
-    'Segoe UI',
-    Roboto,
-    sans-serif;
-}
-
-.placeholder {
   min-height: 100svh;
-  display: grid;
-  place-content: center;
-  text-align: center;
-  gap: 0.5rem;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: var(--step-0);
+  line-height: var(--leading-body);
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
-.placeholder h1 {
-  margin: 0;
-  font-size: clamp(3rem, 12vw, 9rem);
-  letter-spacing: -0.03em;
-  line-height: 1;
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
 }
 
-.placeholder p {
-  margin: 0;
-  color: #8a95a3;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  font-size: 0.875rem;
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+::selection {
+  background: var(--signal);
+  color: var(--bg);
+}
+
+/* ---------- Odak ---------- */
+:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+  border-radius: var(--radius-1);
+}
+
+/* ---------- Erişilebilirlik yardımcıları ---------- */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

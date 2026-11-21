@@ -1,0 +1,100 @@
+.page {
+  padding-block: var(--space-9);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-9);
+}
+
+.block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.swatches {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: var(--space-4);
+}
+
+.swatch {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  color: var(--text-2);
+}
+
+.chip {
+  height: 64px;
+  border: var(--line-w) solid var(--line);
+}
+
+.scaleRow {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  align-items: center;
+  gap: var(--space-3);
+  color: var(--text-2);
+}
+
+.scale {
+  display: grid;
+  grid-template-columns: repeat(11, minmax(0, 1fr));
+}
+
+.scaleCell {
+  height: 44px;
+  display: grid;
+  place-items: end start;
+  padding: 4px 2px;
+  overflow: hidden;
+}
+
+@media (max-width: 600px) {
+  .scaleRow {
+    grid-template-columns: 1fr;
+    gap: var(--space-1);
+  }
+  .scaleText {
+    font-size: 8px;
+  }
+}
+
+.scaleText {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  mix-blend-mode: difference;
+  color: #fff;
+}
+
+.typeRow {
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  align-items: baseline;
+  gap: var(--space-3);
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.display {
+  font-family: var(--font-display);
+  font-stretch: var(--stretch-display);
+  font-weight: 700;
+  letter-spacing: var(--tracking-display);
+}
+
+.icon {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  justify-content: center;
+  width: 104px;
+  min-height: 84px;
+  padding: var(--space-3);
+  text-align: center;
+  border: var(--line-w) solid var(--line);
+  color: var(--text-2);
+}

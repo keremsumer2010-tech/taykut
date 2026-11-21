@@ -4,7 +4,39 @@ En yeni bölüm en üstte. Her bölüm: plan, yapılanlar, ölçümler, sapmalar
 
 ---
 
-## B00 — Temel (2026-11-21)
+## B01 — Tasarım Sistemi (2026-11-21)
+
+**Plan:** Renkleri logodan ve fotoğraftan ölç, OKLCH ölçekleri ve anlamsal belirteçler kur, kontrastı betikle denetle; fontları seç ve Türkçe için alt kümele; ızgara/boşluk/hareket belirteçleri; bileşenler ve ikonlar; vitrin sayfası. Doğrulama: kontrast betiği, tip/lint/test, üç ekran boyutunda görüntü, font bütçesi. Ayrıntılar: `docs/TASARIM.md`.
+
+### Yapılanlar
+- Ölçülen renkler: logo laciverti `#01234A`, logo turuncusu `#D15B09`, tekerlek sarısı `#E7AD01`. Turuncu = eylem, sarı = veri/HUD.
+- `tools/design/palette.mjs` (OKLCH ölçekleri, marka renkleri birebir sabit) + `tools/design/color.mjs` (dönüşüm ve WCAG; birim testli).
+- `tools/check-contrast.mjs`: 21 çift, CI adımı eklendi.
+- Fontlar: Archivo (geniş) / Inter / JetBrains Mono; `tools/fonts/subset.py` ile Türkçe alt kümeleme ve otomatik `fonts.css`.
+- Bileşenler: Button, HudFrame, SectionHeader, StatusBadge, Tag, KindNote, Stat, Divider, Logo, Icon (16 ikon).
+- `tools/brand/logo_alpha.py`: logonun yalnız siyah arka planı şeffaf (renkler birebir).
+- `tools/shots.mjs`: üç ekran boyutunda ekran görüntüsü aracı.
+- Vitrin: `/taykut/vitrin/` (yalnız geliştirme).
+
+### Ölçümler
+- Kontrast: 21/21 ✓ (en düşük gövde metni çifti: turuncu metin kart üstünde 4.70:1).
+- Font yükü: 6 dosya, 158.4 KB / 180 KB (alt kümeleme öncesi ~330 KB).
+- İlk yük (gzip): 69.7 KB / 250 KB; CSS 3.1 KB gzip.
+- Birim test 4/4 ✓.
+
+### Mükemmellik turları
+1. **Tur 1 bulguları:** (a) `--line-strong` 2.05:1 → `--neutral-600` (3.3:1). (b) Türkçe sayfada büyük harf İngilizce adları bozuyor ("--LİNE") → `Tag` varsayılan `lang="en"`, kural TASARIM.md'ye yazıldı. (c) Font karşılaştırmasında `.t-display` sınıfı adayı eziyordu, karşılaştırma yanıltıcıydı → düzeltilip yeniden bakıldı. (d) Latin-ext font aralığı latin ile çakışıyordu → çakışmasız aralıklar. (e) Vite küçük font parçalarını CSS'e gömüyordu → `assetsInlineLimit` ile kapatıldı.
+2. **Tur 2 bulguları (mobil 375 px):** (a) vitrindeki renk ölçeği 13 px yatay taşma yapıyordu → `minmax(0, 1fr)`. (b) `.grid` satır aralığı yoktu, mobilde kartlar birbirine yapışıyordu → `row-gap` eklendi. (c) İkon kutuları eşit yükseklikte değildi → düzeltildi.
+3. **Tur 3:** Masaüstü/tablet/mobil yeniden çekildi; düzeltilecek yeni kusur bulunmadı.
+
+### Eleştiri listesi cevapları
+- *Başka bir rover takımına da uyar mı?* İmza öğeleri TAYKUT'a özgü: logodan gelen turuncu, kendi tekerleklerinden gelen sarı, köşe işaretli HUD dili, `01 /` numaralandırma, geniş Archivo başlıklar. Gerçek kompozisyonla (B03) yeniden değerlendirilecek.
+- *Üçten fazla vurgu?* Hayır: turuncu (eylem) + sarı (veri); durum renkleri yalnız durumda.
+- *HUD dili oyun arayüzü gibi mi?* Neon/parlama yok, 1 px çizgi ve mono etiketler; mühendislik çizimi tonunda.
+
+### Doğrulanmayanlar
+- Kritik font preload'u henüz yok (gerçek sayfa düzeni B03'te kurulunca eklenecek).
+- Vitrin yalnız Chromium'da gözle kontrol edildi.
 
 **Plan:** Vite + React + TypeScript strict iskeleti, ESLint/Prettier, Vitest, Playwright, bütçe ve dosya boyutu denetimi, CI + GitHub Pages yayını. Doğrulama: yerel komutlar + CI yeşil + canlı adres 200.
 
@@ -32,5 +64,14 @@ En yeni bölüm en üstte. Her bölüm: plan, yapılanlar, ölçümler, sapmalar
 - typecheck ✓ · lint ✓ · birim test 1/1 ✓ · e2e 6/6 ✓ (chromium, webkit, mobil)
 - İlk yük (gzip): 67.0 KB / sınır 250 KB · dist toplam 1.21 MB (kaynak haritaları dahil)
 
+### CI ve yayın
+- GitHub Actions çalıştırması `44932029434`: `check` ✓ (Firefox dahil 8/8 e2e) → `deploy` ✓. Toplam 1 dk 43 sn (hedef < 6 dk).
+- `https://keremsumer2010-tech.github.io/taykut/` → HTTP 200; smoke testleri canlı adrese karşı (chromium + mobil) 4/4 ✓.
+
+### Mükemmellik turu
+- **Kırmızı test yayına sızabilir mi?** Hayır: `deploy` işi `needs: check` ile bağlı, `check` içindeki herhangi bir adım kırılırsa `deploy` hiç başlamaz. Bu yapısal bir garanti olduğu için ayrı dalda bozuk test denemesi yapılmadı (dal push'ları zaten yayınlamaz, deneme bir şey kanıtlamazdı).
+- **`base` yolu:** favicon, 404 dönüş linki ve derlenen varlıklar `/taykut/` önekiyle çalışıyor (canlı testte 400+ yanıt yok).
+- **Satır sonları:** `.gitattributes` `eol=lf`; B01 commit'inde `git add --renormalize` ile eski dosyalar da düzeltilecek.
+
 ### Doğrulanmayanlar
-- (CI ve canlı adres sonuçları yayından sonra eklenecek.)
+- Firefox yerelde çalıştırılamıyor (Akıllı Uygulama Denetimi); yalnız CI'da doğrulandı.

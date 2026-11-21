@@ -19,9 +19,16 @@
     "test:watch": "vitest",
     "test:e2e": "playwright test",
     "budget": "node tools/budget.mjs",
-    "check:size": "node tools/check-filesize.mjs"
+    "check:size": "node tools/check-filesize.mjs",
+    "check:contrast": "node tools/check-contrast.mjs",
+    "tokens": "node tools/design/palette.mjs",
+    "fonts": "uv run --no-project --with fonttools --with brotli python tools/fonts/subset.py",
+    "shots": "node tools/shots.mjs"
   },
   "dependencies": {
+    "@fontsource-variable/archivo": "5.3.0",
+    "@fontsource-variable/inter": "5.3.0",
+    "@fontsource-variable/jetbrains-mono": "5.3.0",
     "react": "19.3.1",
     "react-dom": "19.3.1"
   },

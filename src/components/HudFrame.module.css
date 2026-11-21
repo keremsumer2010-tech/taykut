@@ -1,0 +1,62 @@
+/* TAYKUT'un imza çerçeve dili: 1 px çizgi + köşe işaretleri. Kart, etiket ve HUD'da tekrar eder. */
+.frame {
+  position: relative;
+  border: var(--line-w) solid var(--line);
+  background: var(--surface-1);
+}
+
+.translucent {
+  background: var(--scrim);
+}
+
+@supports (backdrop-filter: blur(1px)) {
+  .translucent {
+    backdrop-filter: blur(8px) saturate(1.1);
+  }
+}
+
+/* Dört köşe işareti: iki sözde öğe, her biri iki köşeyi çizer */
+.frame::before,
+.frame::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  pointer-events: none;
+  --t: var(--tick);
+  --c: var(--line-strong);
+}
+
+.frame::before {
+  background:
+    linear-gradient(var(--c), var(--c)) top left / var(--t) 1px no-repeat,
+    linear-gradient(var(--c), var(--c)) top left / 1px var(--t) no-repeat,
+    linear-gradient(var(--c), var(--c)) bottom right / var(--t) 1px no-repeat,
+    linear-gradient(var(--c), var(--c)) bottom right / 1px var(--t) no-repeat;
+}
+
+.frame::after {
+  background:
+    linear-gradient(var(--c), var(--c)) top right / var(--t) 1px no-repeat,
+    linear-gradient(var(--c), var(--c)) top right / 1px var(--t) no-repeat,
+    linear-gradient(var(--c), var(--c)) bottom left / var(--t) 1px no-repeat,
+    linear-gradient(var(--c), var(--c)) bottom left / 1px var(--t) no-repeat;
+}
+
+.accent::before,
+.accent::after {
+  --c: var(--signal);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-4);
+  border-bottom: var(--line-w) solid var(--line);
+  color: var(--text-2);
+}
+
+.body {
+  padding: var(--space-4);
+}

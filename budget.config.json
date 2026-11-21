@@ -1,5 +1,6 @@
 {
   "$comment": "Anayasa performance_budget. KB = 1024 bayt, gzip seviye 9. Yeni bütçeler ilgili bölümde eklenir.",
   "initialGzipKB": 250,
-  "maxSingleFileKB": 15360
+  "maxSingleFileKB": 15360,
+  "fontsKB": 180
 }

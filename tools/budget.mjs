@@ -50,6 +50,15 @@ if (kb(initialGzip) > config.initialGzipKB) {
   failed = true;
 }
 
+// Font yükü (woff2 dosyalarının toplamı; zaten sıkıştırılmış, gzip uygulanmaz)
+const fonts = walk(DIST).filter((f) => f.endsWith('.woff2'));
+const fontKB = kb(fonts.reduce((sum, f) => sum + statSync(f).size, 0));
+console.log(`Fontlar: ${fonts.length} dosya, ${fontKB.toFixed(1)} KB / sınır ${config.fontsKB} KB`);
+if (fontKB > config.fontsKB) {
+  console.error('✗ Font bütçesi aşıldı.');
+  failed = true;
+}
+
 // Tek dosya boyutu
 const big = walk(DIST).filter((f) => kb(statSync(f).size) > config.maxSingleFileKB);
 for (const f of big) {

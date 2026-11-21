@@ -1,0 +1,125 @@
+/*
+ * TAYKUT tasarım belirteçleri. Bileşenler YALNIZ bu anlamsal belirteçleri kullanır;
+ * ham ölçek değişkenlerine (--orange-500 gibi) doğrudan erişmez.
+ * Renk kaynakları ve gerekçeler: docs/TASARIM.md
+ */
+@import './palette.css';
+
+:root {
+  color-scheme: dark;
+
+  /* ---------- Renk: zemin ve yüzeyler ---------- */
+  --bg: #07090c; /* sitenin zemini: lacivert tonlu neredeyse siyah */
+  --bg-deep: var(--navy-950); /* yörünge/uzay sahneleri */
+  --surface-1: #0d1116; /* kart, panel */
+  --surface-2: #131820; /* yükseltilmiş panel, hover */
+  --surface-3: #1a2029; /* giriş alanı, seçili */
+  --scrim: rgb(7 9 12 / 0.72); /* HUD ve metin altı yarı saydam zemin */
+
+  /* ---------- Renk: çizgiler ---------- */
+  --line: #222a35; /* ayırıcı, çerçeve */
+  --line-strong: var(--neutral-600); /* vurgulu çerçeve, köşe işaretleri, giriş alanı kenarı (≥ 3:1) */
+
+  /* ---------- Renk: metin ---------- */
+  --text: #e8ecf1;
+  --text-2: #a3adba; /* ikincil metin */
+  --text-3: #7a8592; /* üçüncül: birimler, notlar (yalnız büyük/kalın veya süsleme) */
+
+  /* ---------- Renk: marka ve vurgu ---------- */
+  --accent: var(--orange-500); /* logo turuncusu: eylem çağrıları, marka anları */
+  --accent-hover: var(--orange-400);
+  --accent-contrast: #0b0603; /* turuncu zemin üstü metin */
+  --signal: var(--yellow-300); /* TPU tekerlek sarısı: veri vurgusu, HUD değerleri, rover */
+  --signal-dim: var(--yellow-600);
+  --brand-navy: var(--navy-900); /* logo laciverti (logo plakası çevresi, derin vurgular) */
+
+  /* ---------- Renk: durum ---------- */
+  --ok: var(--green-400);
+  --warn: var(--yellow-200);
+  --danger: var(--red-400);
+
+  /* ---------- Odak ---------- */
+  --focus-ring: var(--signal);
+
+  /* ---------- Tipografi ---------- */
+  /* "TK" aileleri tools/fonts/subset.py ile Türkçe+İngilizce alt kümelenmiştir (src/styles/fonts.css). */
+  --font-display: 'Archivo TK', system-ui, sans-serif;
+  --font-body: 'Inter TK', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono TK', ui-monospace, 'Cascadia Mono', monospace;
+  --stretch-display: 112%; /* Archivo genişlik ekseni: endüstriyel, geniş başlıklar */
+
+  /* Akışkan tip ölçeği: 360 px → 1440 px arasında; oran mobilde ~1.2, masaüstünde ~1.25 */
+  --step--2: clamp(0.72rem, 0.7rem + 0.08vw, 0.78rem);
+  --step--1: clamp(0.84rem, 0.82rem + 0.1vw, 0.92rem);
+  --step-0: clamp(1rem, 0.97rem + 0.15vw, 1.1rem);
+  --step-1: clamp(1.2rem, 1.14rem + 0.28vw, 1.38rem);
+  --step-2: clamp(1.44rem, 1.33rem + 0.5vw, 1.72rem);
+  --step-3: clamp(1.73rem, 1.55rem + 0.85vw, 2.15rem);
+  --step-4: clamp(2.07rem, 1.78rem + 1.4vw, 2.69rem);
+  --step-5: clamp(2.49rem, 2rem + 2.3vw, 3.6rem);
+  --step-6: clamp(2.99rem, 2.1rem + 4.2vw, 5.4rem);
+  --step-7: clamp(3.6rem, 2rem + 7.6vw, 8.6rem); /* hero "TAYKUT" */
+
+  --leading-tight: 0.98;
+  --leading-snug: 1.15;
+  --leading-body: 1.58;
+  --tracking-display: -0.025em;
+  --tracking-label: 0.14em;
+
+  /* ---------- Boşluk (4 px tabanlı) ---------- */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --space-9: 6rem;
+  --space-10: 8rem;
+  --space-11: 10rem;
+  --section-gap: clamp(6rem, 4rem + 8vw, 11rem);
+
+  /* ---------- Izgara ---------- */
+  --grid-columns: 12;
+  --gutter: clamp(1rem, 0.6rem + 1.6vw, 2rem); /* mobil 16 px → masaüstü 32 px */
+  --column-gap: clamp(1rem, 0.7rem + 1vw, 1.5rem);
+  --content-max: 1440px;
+  --measure: 68ch;
+
+  /* ---------- Biçim ---------- */
+  --radius-0: 0;
+  --radius-1: 2px;
+  --radius-2: 6px;
+  --line-w: 1px;
+  --tick: 8px; /* HUD köşe işareti uzunluğu */
+
+  /* ---------- Hareket ---------- */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --dur-1: 120ms;
+  --dur-2: 200ms;
+  --dur-3: 320ms;
+  --dur-4: 560ms;
+  --dur-5: 900ms;
+
+  /* ---------- Katmanlar ---------- */
+  --z-canvas: 0;
+  --z-content: 10;
+  --z-hud: 20;
+  --z-nav: 40;
+  --z-overlay: 60;
+  --z-boot: 80;
+  --z-cursor: 100;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-1: 0.01ms;
+    --dur-2: 0.01ms;
+    --dur-3: 0.01ms;
+    --dur-4: 0.01ms;
+    --dur-5: 0.01ms;
+  }
+}

@@ -1,0 +1,103 @@
+/* ---------- Bölüm başlığı ---------- */
+.sectionHeader {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.kicker {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  color: var(--text-2);
+}
+
+.kickerIndex {
+  color: var(--signal);
+}
+
+.kickerSlash {
+  color: var(--text-3);
+}
+
+.titleLine {
+  display: block;
+}
+
+/* ---------- Rozet ---------- */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  border: var(--line-w) solid var(--line-strong);
+  color: var(--text);
+  --dot: var(--text-2);
+}
+
+.badgeDot {
+  width: 6px;
+  height: 6px;
+  background: var(--dot);
+}
+
+.badge_competed {
+  --dot: var(--signal);
+  border-color: var(--signal-dim);
+}
+
+.badge_target {
+  --dot: var(--accent);
+}
+
+.badge_dream {
+  --dot: var(--text-3);
+  border-style: dashed;
+}
+
+.badge_ok {
+  --dot: var(--ok);
+}
+
+.badge_warn {
+  --dot: var(--warn);
+}
+
+.badge_danger {
+  --dot: var(--danger);
+}
+
+/* ---------- Etiket ---------- */
+.tag {
+  display: inline-block;
+  padding: 2px var(--space-2);
+  background: var(--surface-2);
+  color: var(--text-2);
+}
+
+.kindNote {
+  color: var(--text-3);
+}
+
+/* ---------- İstatistik ---------- */
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding-top: var(--space-4);
+  border-top: var(--line-w) solid var(--line-strong);
+}
+
+.statLabel {
+  max-width: 24ch;
+}
+
+/* ---------- Ayırıcı ---------- */
+.divider {
+  border: 0;
+  height: 9px;
+  background:
+    linear-gradient(var(--line), var(--line)) center / 100% 1px no-repeat,
+    linear-gradient(var(--line-strong), var(--line-strong)) left center / 1px 9px no-repeat,
+    linear-gradient(var(--line-strong), var(--line-strong)) right center / 1px 9px no-repeat;
+}

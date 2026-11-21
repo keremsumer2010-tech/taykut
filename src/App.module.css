@@ -1,0 +1,14 @@
+.placeholder {
+  min-height: 100svh;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: var(--space-5);
+  padding: var(--gutter);
+  text-align: center;
+  color: var(--text);
+}
+
+.placeholder p {
+  color: var(--text-2);
+}
