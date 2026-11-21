@@ -29,7 +29,7 @@ En yeni bölüm en üstte. Her bölüm: plan, yapılanlar, ölçümler, sapmalar
 5. Hero'daki "MRC 2026 · 4. GENEL" Türkçede ters sıralıydı ve koordinatlar İngilizce yazılıyordu → içerikten "Genel 4.", koordinat dile göre (K/D).
 
 ### Eleştiri listesi cevapları
-- *3D olmadan ilk ekran etkileyici mi?* Evet: gerçek rover fotoğrafı, dev geniş başlık, telemetri şeridi (ekran görüntüleri `docs/ilerleme/B03/`).
+- *3D olmadan ilk ekran etkileyici mi?* Evet: gerçek rover fotoğrafı, dev geniş başlık, telemetri şeridi (ekran görüntüleri `docs/ilerleme/B03/`, Lighthouse özeti `lighthouse.md`).
 - *Sponsor bilgisine kaç tıkla?* 1 (üst çubuk ve hero düğmesi; e2e testli).
 - *Mobilde başparmakla ulaşılabilir mi?* Dokunma hedefleri ≥ 44 px; mobil menü ve bölge listesi.
 

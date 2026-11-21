@@ -45,8 +45,9 @@ for (const url of urls) {
       });
       await page.waitForLoadState('networkidle');
     }
-    const file = join(outDir, `${slug}-${name}.png`);
-    await page.screenshot({ path: file, fullPage: full });
+    // JPEG (kalite 70): kanıt görüntüleri depoda küçük kalsın (PNG tam sayfa ~6 MB idi).
+    const file = join(outDir, `${slug}-${name}.jpg`);
+    await page.screenshot({ path: file, fullPage: full, type: 'jpeg', quality: 70 });
     console.log(`✓ ${file}`);
     await page.close();
   }
