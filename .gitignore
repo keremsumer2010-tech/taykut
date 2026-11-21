@@ -1,0 +1,12 @@
+node_modules/
+dist/
+tools/.cache/
+*.tif
+*.tiff
+*.blend1
+.env*
+test-results/
+playwright-report/
+.lighthouseci/
+.DS_Store
+Thumbs.db
