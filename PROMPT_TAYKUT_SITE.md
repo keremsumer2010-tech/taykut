@@ -86,6 +86,8 @@ Kardeş klasörlerdeki kaynaklar (okunur, **kopyalanır**, orijinallerine dokunu
 
 | Kaynak | Yol (Kerem Sumer CV altında) | Kullanım |
 |---|---|---|
+| **Yeni saha fotoğrafları (depoda)** | `taykut/kaynak/foto/summertech-gunduz-regolit.jpg` (1200×1600; gündüz, gri regolit, sarı TPU tekerlekler, ters V rocker, sondajlı kol, numune kutusu, anten), `taykut/kaynak/foto/summertech-gece-ahtapot-tutucu.jpg` (1600×1200; gece, ahtapot tutucu bataryaları kavrıyor, yeşil LED'li güç paneli, arkada jeodezik kubbe) | SummerTech modelinin referansı (B08), MRC sahnesi (B18), hero ve galeri (B04) |
+| **Gerçek yer istasyonu** | `Rover_Dijital_Ikiz/ros2_ws/src/taykut_gs/web/istasyon/` (`index.html`, `js/`, `stil.css`, `veri/`); sunucu `Rover_Dijital_Ikiz/tools/istasyon_sun.js` | Sitedeki etkileşimli yer istasyonu demosunun işlev referansı (B19). Kod kopyalanmaz, yeniden tasarlanır. |
 | Saha fotoğrafları ve video | `taykut-site/public/media/` → `rover-day.webp`, `rover-night.webp`, `rover-aruco.webp`, `digital-twin.webp`, `ground-station.mp4`, `ground-station-poster.webp`, `og.jpg`, `summertech-logo.png` | Galeri, yedek mod, OG görseli, mühendislik bölümü |
 | Eski site metinleri (TR/EN) | `taykut-site/src/i18n.js` | Metin kaynağı. **Kodunu kullanma**, sadece içeriği doğrulayarak al. |
 | 2027 rover eklemli GLB parçaları | `Rover_Dijital_Ikiz/ros2_ws/src/taykut_description/meshes/` → `base_link.glb`, `rocker_L/R.glb`, `bogie_L/R.glb`, `diff_bar.glb`, `wheel_L/R.glb` | Rover modeli (birleştirilip optimize edilecek) |
@@ -286,6 +288,7 @@ Görev bölgelerinde aktif olur, `src/hud/`:
 
 ### Sonraki içerik bölümleri
 - **Rakamlar:** Gerçek verilerle sayaçlar (MRC başvuru 1., final 4., 45×45 cm, ~35 dk hesaplanan, ~0.58 m/s tahmin, 3 kart). Etiketler dürüst.
+- **Yer İstasyonu (etkileşimli demo):** Takımın gerçek web yer istasyonunun tarayıcıda simülasyonla çalışan sürümü: kamera paneli (ArUco tespiti), 2B/3B harita (Üstten/Takip, İzi sil), acil durdur + kilit, yön tuşları, Otonomi/Görev/PID sekmeleri, telemetri grafikleri. Ziyaretçi waypoint ekleyip görevi başlatır, rover otonom gider. Ayrıntı: `prompts/B19_yer_istasyonu.md`. Üstte dürüstlük şeridi: "Simülasyon demosu, gerçek rover'a bağlı değil."
 - **Mühendislik:** 5 alt sistem kartı (Mekanik, Elektronik, Yazılım ve Otonomi, Kol ve Tutucu, Bilim). Her kartta kısa açıklama ve bir görsel. Altında "Dijital İkiz ve Yer İstasyonu" vitrini: `ground-station.mp4` (otomatik oynatma sessiz ve döngülü, reduced-motion'da poster) ve açıklama.
 - **Yolculuk:** Dikey zaman çizelgesi: Kas 2025 kuruluş → 2026 başvuru videosu 1. → Tem–Ağu 2026 MRC finali 4. → 2027 yeni ekip ve yeni rover → Ağu 2027 CIRC hedefi.
 - **Takım:** 7 üye ve danışman kartı. Isim, rol (varsa), illüstrasyon/siluet. Hover'da ince rover parçası çizimi.
@@ -293,7 +296,7 @@ Görev bölgelerinde aktif olur, `src/hud/`:
 - **Altbilgi:** Okul, danışman, kaptan, Instagram, dil seçici, "Veri ve atıflar", lisans notu, klavye kısayolları.
 
 ### Alt sayfalar
-`/taykut/sponsor/`, `/taykut/rover/` (iki rover'ın teknik tablosu), `/taykut/basin/` (basın kiti: logo, kısa ve uzun tanıtım metni, fotoğraflar) ve `404.html` (kayıp rover temalı, ana sayfaya dönüş). Vite çok sayfalı derleme (`build.rollupOptions.input`) ile.
+`/taykut/sponsor/`, `/taykut/istasyon/` (etkileşimli yer istasyonu demosu, B19), `/taykut/rover/` (iki rover'ın teknik tablosu), `/taykut/basin/` (basın kiti: logo, kısa ve uzun tanıtım metni, fotoğraflar) ve `404.html` (kayıp rover temalı, ana sayfaya dönüş). Vite çok sayfalı derleme (`build.rollupOptions.input`) ile.
 
 ### Mikro etkileşimler
 - Özel imleç: masaüstünde ince halka, link üzerinde büyür, 3D'de "SÜRÜKLE" metni. Dokunmatikte kapalı.
@@ -636,9 +639,12 @@ Teknik ayrıntıyı kullanıcı isterse ver. Jargonu azalt.
 </output_format>
 
 <start_here>
-1. Bu dosyayı ve `docs/superpowers/specs/2026-11-21-taykut-site-design.md` dosyasını baştan sona oku.
-2. `<existing_assets>` tablosundaki her yolu kontrol et; bulunamayanları listele.
-3. `docs/superpowers/plans/2026-11-21-taykut-site-plan.md` adında, A0–A12 aşamalarını dosya ve adım düzeyinde ayrıntılandıran bir uygulama planı yaz.
-4. `<open_questions>` içinden **A0–A2 için gerekli olanları** kullanıcıya tek mesajda sor (diğerleri ilgili aşamada sorulur).
-5. Kullanıcı planı onaylayınca **A0** ile başla.
+**Site tek seferde yapılmaz.** İş, `prompts/` klasöründeki 24 bölüm promptuna (B00–B23) ayrılmıştır. Yukarıdaki `<workflow>` tablosundaki A0–A12 aşamaları genel çerçevedir; uygulamada **bölüm promptları** izlenir (daha ayrıntılıdır). Eşleşme: A0→B00 · A1→B01–B05 · A2→B06–B08 · A3→B09–B10 · A4→B06 · A5→B11–B15 · A6→B16 · A7→B17 · A8→B18 · (yeni) Yer İstasyonu→B19 · A9→B20 · A10→B21 · A11→B22 · A12→B23.
+
+1. Bu dosyayı ve `prompts/README.md`'yi oku.
+2. `docs/ILERLEME.md`'ye bak: hangi bölümün bittiğini bul. Yoksa B00'dan başla.
+3. Sıradaki bölümün promptunu (`prompts/Bxx_*.md`) baştan sona oku ve uygula.
+4. Her bölümde **mükemmellik döngüsü** zorunludur (en az 2 tur: ölç → eleştir → düzelt). Süre ve token sınırı yoktur; kalite sınırı vardır.
+5. Bölüm bitince rapor yaz, commit at, push et, CI yeşil olsun; sonra bir sonraki bölüme geç. Kullanıcı aksini söylemedikçe bölümler arasında onay bekleme.
+6. `<open_questions>` için `prompts/README.md`'deki varsayılanları kullan; cevap gerektiren bir karar bir bölümü gerçekten durduruyorsa kullanıcıya tek mesajda sor ve beklerken başka bir bölüm üzerinde çalışılabiliyorsa onu yap.
 </start_here>

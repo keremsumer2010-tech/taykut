@@ -7,7 +7,9 @@ TAYKUT, Ankara ASELSAN Mesleki ve Teknik Anadolu Lisesi'nden bir lise rover tak�
 ## Belgeler
 | Dosya | Ne |
 |---|---|
-| [`PROMPT_TAYKUT_SITE.md`](PROMPT_TAYKUT_SITE.md) | Siteyi sıfırdan kuracak yapay zekâ ajanı için master prompt (tek doğruluk kaynağı) |
+| [`PROMPT_TAYKUT_SITE.md`](PROMPT_TAYKUT_SITE.md) | Anayasa: değişmez kurallar, gerçekler, teknik çerçeve |
+| [`prompts/`](prompts/README.md) | 24 ayrıntılı bölüm promptu (B00–B23), sırayla uygulanır |
+| [`kaynak/foto/`](kaynak/foto) | Ham saha fotoğrafları |
 | [`docs/superpowers/specs/2026-11-21-taykut-site-design.md`](docs/superpowers/specs/2026-11-21-taykut-site-design.md) | Tasarım belgesi: kararlar, gerekçeler, yol haritası |
 
 ## Nasıl başlanır
