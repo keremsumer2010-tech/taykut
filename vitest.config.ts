@@ -7,7 +7,8 @@ export default defineConfig({
   },
   test: {
     environment: 'jsdom',
-    include: ['tests/unit/**/*.test.{ts,tsx}'],
+    // PLOTS=1: belge şekillerini üreten betikler de çalışır (npm run plots)
+    include: process.env.PLOTS ? ['tests/plots/**/*.plot.ts'] : ['tests/unit/**/*.test.{ts,tsx}'],
     setupFiles: ['tests/unit/setup.ts'],
   },
 });

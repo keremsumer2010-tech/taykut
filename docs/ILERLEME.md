@@ -4,6 +4,32 @@ En yeni bölüm en üstte. Her bölüm: plan, yapılanlar, ölçümler, sapmalar
 
 ---
 
+## B06 — Süspansiyon Kinematiği (2026-11-22)
+
+**Plan:** Rocker-bogie + diferansiyel ve 4 tekerlekli diferansiyelli rocker için analitik, deterministik, testli çözücü; rota, poz izi, worker; SVG şekiller ve belge. Ayrıntı: `docs/KINEMATIK.md`.
+
+### Yapılanlar
+- `src/lib/heightfield.ts` (bilinear, normal, eğim), `src/lib/frames.ts` (ENU ↔ three, gövde → dünya), `src/scene/rover/geometry.ts` (2027: `rover_params.yaml`'dan; SummerTech: fotoğraftan tahmin; 4/6 tekerlek).
+- `src/scene/rover/kinematics.ts`: 6 bilinmeyen / 6 temas, ileri kinematikle tutarlı Gauss–Newton; güven bölgesi; aktif küme ile eklem limitleri (havadaki teker, gömülme yok).
+- `route.ts` (centripetal Catmull-Rom, eşit yay aralığı, yaw sürekliliği), `poseTrack.ts` (Float32Array paket, enterpolasyon, taraf başına tekerlek dönüşü), `src/workers/routeSolver*.ts` + `solveRouteAsync.ts`.
+- `tests/plots/kinematics.plot.ts` (`npm run plots`): 6 senaryonun yan görünüş SVG'si (`docs/kinematik/`).
+
+### Ölçümler
+- Birim test **45/45** ✓ (kinematik 14: düz, 3 yönde 15° yokuş, 10° yan eğim, basamak, simetrik tümsek, 45/60/80 cm basamak, determinizm, 300 rastgele poz, 4 tekerlek ×3; çekirdek 9: heightfield, çerçeveler, rota, tekerlek dönüşü, geri sarma, worker determinizmi).
+- 2048 poz: **83 ms**, en kötü temas artığı 0,18 mm.
+
+### Mükemmellik turları
+1. "Her taraf ayrı" yan görünüş yöntemi roll'de ~1,5 cm hata veriyordu → ileri kinematikle tutarlı 6×6 sayısal çözüm.
+2. Limit testi beklenmedik biçimde geçmedi: 45 cm basamak limit içinde aşılıyor (fiziksel olarak doğru) → test 60 cm'ye taşındı; denemede iki kusur çıktı: 60 cm'de bir teker 34 mm gömülüyordu, 80 cm'de çözüm ıraksıyordu (roll 552°) → güven bölgesi + aktif küme; iki ayrı regresyon testi.
+3. Performans 1358 → 146 → 83 ms (sıcak başlangıç, chord Jacobian, pozlar arası Jacobian).
+4. SVG şekillerinde gövdenin 60 cm basamağa girdiği görüldü → gövde–arazi çarpışması belgeye sınır olarak yazıldı; rota planlayıcı engelleri 45 cm altında tutacak (B11).
+
+### Doğrulanmayanlar
+- Worker'ın tarayıcıda çalışması henüz bir sahnede denenmedi (B13'te bağlanacak); çekirdek Node'da testli.
+- SummerTech ölçüleri fotoğraftan tahmin.
+
+---
+
 ## B05 — Önceden HTML Üretimi, SEO, Erişilebilirlik, Gizlilik (2026-11-22)
 
 **Plan:** B04'te bulunan kök nedeni (içerik JS çalışınca çiziliyor) önceden HTML üretimiyle çöz; meta/OG/hreflang/JSON-LD/sitemap; axe testleri; CSP; dış istek denetimi; Lighthouse CI.

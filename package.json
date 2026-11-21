@@ -29,7 +29,8 @@
     "assets:media": "python tools/media/build_media.py",
     "assets:og": "uv run --no-project --with pillow --with fonttools --with brotli python tools/media/og.py",
     "check:external": "node tools/check-external.mjs",
-    "lhci": "node tools/lighthouse-ci.mjs"
+    "lhci": "node tools/lighthouse-ci.mjs",
+    "plots": "node -e \"process.env.PLOTS=1;require('child_process').execSync('npx vitest run',{stdio:'inherit',env:process.env})\""
   },
   "dependencies": {
     "@fontsource-variable/archivo": "5.3.0",

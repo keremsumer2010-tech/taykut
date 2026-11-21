@@ -15,6 +15,9 @@ export default tseslint.config(
       ...reactHooks.configs.recommended.rules,
       '@typescript-eslint/no-explicit-any': 'error',
       '@typescript-eslint/consistent-type-imports': 'error',
+      // noUncheckedIndexedAccess her dizi erişimini `T | undefined` yapar; sayısal kodda (kinematik,
+      // ızgaralar, matrisler) indeksler döngü sınırlarıyla güvencededir ve `!` bilinçli kullanılır.
+      '@typescript-eslint/no-non-null-assertion': 'off',
     },
   },
   {
