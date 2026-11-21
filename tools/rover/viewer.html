@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>Rover model denetimi</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+        background: #07090c;
+        color: #e8ecf1;
+        font:
+          13px/1.5 ui-monospace,
+          monospace;
+      }
+      canvas {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+      #panel {
+        position: fixed;
+        top: 12px;
+        left: 12px;
+        max-width: 460px;
+        padding: 10px 12px;
+        background: rgb(7 9 12 / 0.82);
+        border: 1px solid #2a313b;
+      }
+      #panel b {
+        color: #e7ad01;
+      }
+      #panel .bad {
+        color: #e5484d;
+      }
+      #panel .ok {
+        color: #46a758;
+      }
+      select,
+      button {
+        font: inherit;
+        background: #1a2029;
+        color: inherit;
+        border: 1px solid #5f646a;
+        padding: 2px 6px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Yalnız geliştirme aracı (npm run dev → /taykut/tools/rover/viewer.html). Yayına girmez. -->
+    <div id="panel">
+      <b>TAYKUT 2027 · model + kinematik denetimi</b><br />
+      <label
+        >Senaryo
+        <select id="scenario"></select
+      ></label>
+      <label
+        >LOD
+        <select id="lod">
+          <option>lod0</option>
+          <option>lod1</option>
+          <option>lod2</option>
+        </select></label
+      >
+      <div id="out">yükleniyor…</div>
+    </div>
+    <script type="module" src="./viewer.ts"></script>
+  </body>
+</html>

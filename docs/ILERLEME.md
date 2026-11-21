@@ -4,6 +4,47 @@ En yeni bölüm en üstte. Her bölüm: plan, yapılanlar, ölçümler, sapmalar
 
 ---
 
+## B07 — TAYKUT 2027 Rover 3B Modeli (2026-11-22)
+
+**Plan:** Dijital ikizin URDF link parçalarından, `rover_params.yaml` ölçüleriyle birebir eklemli web modeli; 3 LOD; meshopt sıkıştırma; parametrelere karşı otomatik doğrulama; kinematik çözücüyle uyum denetimi.
+
+### Yapılanlar
+- `tools/rover/build_rover.py` (Blender 5.2 başsız): parçaları içe aktarır, ikizin Z-yukarı kayıt hatasını düzeltir (X etrafında −90°), hiyerarşiyi kurar: `rover_root > body > rocker_L/R > (wheel_F*, bogie_* > wheel_M*, wheel_R*)`, `diff_gear`, `anchors/anchor_*` (3B etiket çapaları). Kenar yumuşatma + ağırlıklı normaller, web PBR malzemeleri (`TK_*`). LOD0/1/2 dışa aktarımı, isteğe bağlı önizleme render'ı.
+- `tools/rover/optimize.mjs`: dedup → prune (boş eklem düğümleri korunur) → weld → quantize → meshopt (EXT_meshopt_compression zorunlu).
+- `tools/rover/validate.mjs` (`npm run check:rover`, CI'da): düğüm adları, ebeveynler, eklem konumları params'a göre **±1 mm**, tekerlek yarıçapı **±2 mm**, üç LOD için.
+- `tools/rover/build.mjs` (`npm run assets:rover [-- --render]`): Blender → optimize → doğrulama tek komut.
+- `tools/rover/viewer.html` + `viewer.ts` (yalnız geliştirme, yayına girmez): modeli `solvePose` çıktısıyla sürer, her tekerlek düğümünün dünya konumunu çözücünün tekerlek merkeziyle karşılaştırır. `tools/rover/shots.mjs` kanıt görüntülerini alır.
+- three 0.187.0 eklendi (B09 sahnesi de bunu kullanacak).
+
+### Ölçümler
+| LOD | Üçgen | Ham | Sıkıştırılmış | Sınır |
+|---|---|---|---|---|
+| LOD0 | 98.635 | 3.471 KB | **515 KB** | 4.096 KB |
+| LOD1 | 25.448 | 1.266 KB | **260 KB** | 1.228 KB |
+| LOD2 | 5.084 | 287 KB | **93 KB** | 307 KB |
+
+- Model ↔ kinematik uyumu: 7 senaryo × LOD0/LOD2, 6 tekerlek, en büyük fark **0,00 mm** (düz, 10 cm ve 45 cm basamak, 15° yokuş, 12° yan eğim + 30° yön, kaya, engebeli).
+- Negatif test: sol rocker işareti bilerek ters çevrildi → denetim **349,6 mm** fark gösterdi. Yani 0,00 sonucu denetimin kör olmasından değil, eşlemenin doğruluğundan.
+- Eşleme (belgelendi, `viewer.ts applyPose`): gövde Euler `YZX` = (roll, yaw, pitch); rocker/bogie three +Z ekseni etrafında. Tekerlek dönüşü (−s/r, three +Z) B09'da bağlanacak; henüz denenmedi.
+- Birim test 45/45 ✓, typecheck/lint ✓, build ✓, bütçe 106,9 KB ilk yük (model ilk yüke girmiyor).
+
+### Mükemmellik turları
+1. Yan önizleme kamerası tekerleri kesiyordu → kadraj ve hedef düzeltildi; karanlık ortamda alüminyum koyu griye düşüyordu → ortam ışığı artırıldı.
+2. Yeniden render'da tekerler sekizgen çıktı: önizleme LOD döngüsünden sonra alındığı için sahne LOD2'de (%9) kalmıştı. GLB'ler etkilenmemişti (doğrulama geçiyordu) → render öncesi LOD0'a dönüş + üçgen sayısı `assert` ile korunuyor.
+3. Çıktı klasörü göreli yolda Blender render'ları kayboluyordu → mutlak yol.
+
+### Kanıt
+`docs/ilerleme/B07/`: `render-34/yan/teker.jpg` (Blender), `01-duz … 05-engebeli.jpg` (three.js denetim sahnesi, panelde mm farkları).
+
+### Sapmalar ve doğrulanmayanlar
+- KTX2 doku sıkıştırma yok: modelde doku yok, yalnız düz PBR malzemeler (gerek kalmadı).
+- İkizdeki motor gövdesi eski karar (CRL-4001B) biçiminde; güncel karar DJI M3508. Model "tasarım konsepti" olarak etiketlenecek.
+- Tekerlek sarısı (#E7AD01) SummerTech TPU tekerleğinden; 2027 aracının gerçek rengi değil, tasarım kararı.
+- Malzeme görünümü (alüminyum parlaklığı, TPU dokusu) son ışıkla B09/B10'da değerlendirilecek; Blender önizleme ışığı sahnenin son hali değil.
+- Gövde–arazi çarpışması hâlâ hesaplanmıyor (B06'dan devreden sınır).
+
+---
+
 ## B06 — Süspansiyon Kinematiği (2026-11-22)
 
 **Plan:** Rocker-bogie + diferansiyel ve 4 tekerlekli diferansiyelli rocker için analitik, deterministik, testli çözücü; rota, poz izi, worker; SVG şekiller ve belge. Ayrıntı: `docs/KINEMATIK.md`.

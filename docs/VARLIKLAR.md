@@ -11,5 +11,8 @@ Sitede kullanılan her üçüncü taraf veri, doku, font, ses ve kütüphane bur
 | Paket | Sürüm | Lisans |
 |---|---|---|
 | react, react-dom | 19.3.1 | MIT |
+| three (GLTFLoader, MeshoptDecoder dahil) | 0.187.0 | MIT |
+
+Rover 3B modeli (`public/models/taykut2027.*.glb`) takımın kendi dijital ikiz parçalarından üretilir; üçüncü taraf varlık değildir.
 
 Geliştirme araçları (`devDependencies`) siteye dahil edilmez; lisansları `package-lock.json` üzerinden izlenebilir.
