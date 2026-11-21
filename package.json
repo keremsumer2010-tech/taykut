@@ -23,7 +23,8 @@
     "check:contrast": "node tools/check-contrast.mjs",
     "tokens": "node tools/design/palette.mjs",
     "fonts": "uv run --no-project --with fonttools --with brotli python tools/fonts/subset.py",
-    "shots": "node tools/shots.mjs"
+    "shots": "node tools/shots.mjs",
+    "content:rover": "node tools/rover/extract_params.mjs"
   },
   "dependencies": {
     "@fontsource-variable/archivo": "5.3.0",

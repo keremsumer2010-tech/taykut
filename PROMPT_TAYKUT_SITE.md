@@ -626,7 +626,7 @@ Aşağıdakiler cevaplanmadan ilgili kısımda **yer tutucu** kullan ve işe dev
 9. **2027 rover hedef değerleri** (kütle, hız, motor): yayınlanacak kesin değerler.
 10. **Analitik:** GoatCounter (çerezsiz, ücretsiz) istiyor musun, yoksa hiç mi?
 11. **2027 rover tekerlek sayısı:** 6 (rocker-bogie, dijital ikiz) mi, 4 (diferansiyelli rocker, malzeme listesi) mi? Varsayılan: dijital ikizdeki 6.
-12. **İsim yazımı:** Kullanıcı "Mehmet Emir Erdoğmuş" yazdı; eski bir depoda (aseltech) "Mehmet Emin Erdoğmuş" geçiyor. Yayından önce doğru yazımı teyit et. Teyide kadar kullanıcının yazdığı "Mehmet Emir Erdoğmuş" kullanılır.
+12. **İsim yazımı:** Kullanıcı "Mehmet Emir Erdoğmuş" ve "Mehmet Revaha Emuce" yazdı; aseltech deposunda "Mehmet Emin Erdogmus", takımın GitBook ekip sayfasında "Mehmet Reveha Emuce" ve "Mehmet Emir Erdeoğmuş" geçiyor. Yayından önce doğru yazımları teyit et. Teyide kadar kullanıcının yazdığı biçim kullanılır.
 </open_questions>
 
 <output_format>

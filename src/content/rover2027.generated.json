@@ -1,0 +1,91 @@
+{
+  "$comment": "OTOMATİK ÜRETİLDİ: tools/rover/extract_params.mjs — elle düzenleme. Kaynak: rover_params.yaml",
+  "wheelCount": {
+    "value": 6,
+    "kind": "design-target",
+    "source": "rover2027-params"
+  },
+  "suspension": {
+    "value": "rocker_bogie_differential",
+    "kind": "design-target",
+    "source": "rover2027-params"
+  },
+  "steering": {
+    "value": "skid_steer",
+    "kind": "design-target",
+    "source": "rover2027-params"
+  },
+  "totalMassKg": {
+    "value": 15,
+    "unit": "kg",
+    "kind": "design-target",
+    "source": "rover2027-params"
+  },
+  "wheelDiameterM": {
+    "value": 0.25,
+    "unit": "m",
+    "kind": "design-target",
+    "source": "rover2027-params"
+  },
+  "wheelWidthM": {
+    "value": 0.1,
+    "unit": "m",
+    "kind": "assumption",
+    "source": "rover2027-params"
+  },
+  "wheelbaseM": {
+    "value": 0.9,
+    "unit": "m",
+    "kind": "assumption",
+    "source": "rover2027-params"
+  },
+  "trackWidthM": {
+    "value": 0.68,
+    "unit": "m",
+    "kind": "design-target",
+    "source": "rover2027-params"
+  },
+  "bodySizeM": {
+    "value": [0.7, 0.4, 0.2],
+    "unit": "m",
+    "kind": "assumption",
+    "source": "rover2027-params"
+  },
+  "groundClearanceM": {
+    "value": 0.3,
+    "unit": "m",
+    "kind": "assumption",
+    "source": "rover2027-params"
+  },
+  "motor": {
+    "value": "DJI_M3508_P19_24V",
+    "kind": "design-target",
+    "source": "rover2027-params"
+  },
+  "maxWheelSpeedRadS": {
+    "value": 49.11,
+    "unit": "rad/s",
+    "kind": "design-target",
+    "source": "rover2027-params"
+  },
+  "batteryVoltageV": {
+    "value": 24,
+    "unit": "V",
+    "kind": "design-target",
+    "source": "rover2027-params"
+  },
+  "geometry": {
+    "rockerPivotZ": 0,
+    "rockerPivotY": 0.25,
+    "rockerFrontDx": 0.45,
+    "rockerBogieDx": -0.225,
+    "bogieHalfLength": 0.225,
+    "bogiePivotZ": -0.12,
+    "wheelZ": -0.275,
+    "wheelY": 0.34,
+    "wheelRadius": 0.125,
+    "diffRatio": 1.5,
+    "rockerLimitRad": 0.52,
+    "bogieLimitRad": 0.7
+  }
+}

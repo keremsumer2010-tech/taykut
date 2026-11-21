@@ -4,6 +4,38 @@ En yeni bölüm en üstte. Her bölüm: plan, yapılanlar, ölçümler, sapmalar
 
 ---
 
+## B02 — İçerik (2026-11-21)
+
+**Plan:** Tüm metinleri tip güvenli tek yerde topla (TR/EN), dilden bağımsız gerçekleri kaynak ve tür etiketleriyle ayır, kaynak belgesini doldur, dil altyapısını kur, 2027 rover değerlerini dijital ikizden otomatik çıkar. Doğrulama: tip denetimi (TR/EN şema eşitliği), içerik testleri, kaynak anahtarı testi, dil değişimi e2e.
+
+### Yapılanlar
+- `src/content/schema.ts` (tek `Content` tipi + kimlik listeleri), `tr.ts`, `en.ts` (`satisfies Content`).
+- Dilden bağımsız veri: `facts.ts` (her değer `kind` + `source`), `team.ts` (7 üye + danışman, roller bilinmiyor → null), `contact.ts` (e-posta `TODO_EMAIL`, telefon yok), `regions.ts` (6 bölge; MRC 2026 konumu `null`, uydurulmadı).
+- `tools/rover/extract_params.mjs` → `src/content/rover2027.generated.json` (`npm run content:rover`); `# VARSAYIM` yorumları `assumption`, diğerleri `design-target`.
+- `src/lib/i18n.ts`: `?lang` → kayıtlı tercih → tarayıcı dili; yenilemesiz dil değişimi; `<html lang>`, başlık, meta güncellenir; Türkçede ondalık virgül; İngilizce sıra sayıları; `kindNote` (sonuç ve ölçümde not gizli).
+- `docs/ICERIK_KAYNAKLARI.md`: 25 kaynak satırı.
+
+### Kaynaklardan öğrenilen ve sitede korunan dürüstlük ayrıntıları
+- Hız 0.58 m/s **yüksüz tahmin**, ölçülmedi; menzil ~1200 m **teorik**; ~35 dk **%80 deşarj varsayımlı hesap** ([GB]).
+- Dijital ikiz kanıtı **simülasyon** (gerçek arazi verisinde), fiziksel test değil → metin buna göre yazıldı ("Gerçek arazideki testte" yanıltıcı bulunup düzeltildi).
+- MRC final yeri bilinmiyor → sitede yer adı yazılmadı.
+
+### Ölçümler
+- Birim test 16/16 ✓ (TR/EN yapı eşitliği, boş metin yok, yasak ifade yok, 7 üye, kaynak anahtarlarının tamamı belgede, sıra sayıları, ondalık biçimi, YAML çıkarımı) · e2e 9/9 ✓ (dil değişimi dahil).
+
+### Mükemmellik turları
+1. YAML okuyucu `geometry:  # yorum` satırında yorumu değer sanıyordu → düzeltildi, fikstürlü test eklendi.
+2. Birimler dile göre değişmiyordu (dk/min, 4./4th) → `units` + `ordinal` biçimleme.
+3. Birim testlerdeki Node API'si uygulama tiplerine sızıyordu → ayrı `tsconfig.test.json`.
+4. Metin gözden geçirme: abartı ifadesi yok; her bölüm başlığı ≤ 6 kelime; İngilizce metin çeviri değil doğal karşılık.
+
+### Açık kalanlar / doğrulanmayanlar
+- **İsim yazımı teyidi:** GitBook ekip sayfasında "Mehmet Reveha Emuce" ve "Mehmet Emir Erdeoğmuş" yazıyor; kullanıcının listesi "Revaha" ve "Erdoğmuş". Kullanıcının yazdığı kullanılıyor; açık sorulara eklendi.
+- Üye rolleri, e-posta, sponsor kademe tutarları: açık soru.
+- Metin içine gömülü sayılar (ör. "8.05 A") ayrı `Fact` değil; kaynakları belgede anahtarla (`st-energy`, `twin-diff`) duruyor. Otomatik "metindeki her sayıyı bul" denetimi yapılmadı.
+
+---
+
 ## B01 — Tasarım Sistemi (2026-11-21)
 
 **Plan:** Renkleri logodan ve fotoğraftan ölç, OKLCH ölçekleri ve anlamsal belirteçler kur, kontrastı betikle denetle; fontları seç ve Türkçe için alt kümele; ızgara/boşluk/hareket belirteçleri; bileşenler ve ikonlar; vitrin sayfası. Doğrulama: kontrast betiği, tip/lint/test, üç ekran boyutunda görüntü, font bütçesi. Ayrıntılar: `docs/TASARIM.md`.

@@ -9,6 +9,18 @@
   color: var(--text);
 }
 
-.placeholder p {
+.placeholder > p {
   color: var(--text-2);
+}
+
+.lang {
+  min-height: 44px;
+  padding: 0 var(--space-4);
+  border: var(--line-w) solid var(--line-strong);
+  background: transparent;
+  color: var(--text);
+}
+
+.lang:hover {
+  border-color: var(--text);
 }
