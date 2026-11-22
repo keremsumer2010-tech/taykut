@@ -53,10 +53,10 @@ scene.collection.objects.link(sun)
 
 cam = bpy.data.objects.new("cam", bpy.data.cameras.new("cam"))
 cam.data.type = "ORTHO"
-cam.data.ortho_scale = size * 1.15
+cam.data.ortho_scale = size * 1.3
 scene.collection.objects.link(cam)
 scene.camera = cam
-views = {"front": Vector((1, 0, 0)), "left": Vector((0, 1, 0)), "back": Vector((-1, 0, 0)), "right": Vector((0, -1, 0))}
+views = {"front": Vector((1, 0, 0)), "left": Vector((0, 1, 0)), "back": Vector((-1, 0, 0)), "right": Vector((0, -1, 0)), "iso": Vector((0.8, -0.75, 0.45)).normalized()}
 for name, d in views.items():
     cam.location = center + d * size * 3 + Vector((0, 0, size * 0.25))
     cam.rotation_euler = (center - cam.location).to_track_quat("-Z", "Y").to_euler()

@@ -30,9 +30,11 @@ function outFor(path) {
 // İçerik güvenlik politikası (GitHub Pages başlık ayarına izin vermez; meta ile). Yalnız kendi kaynaklarımız.
 // style-src 'unsafe-inline': React'in satır içi style özellikleri (ör. LQIP arka planı) için gerekli.
 // JSON-LD veri bloğu çalıştırılabilir betik değildir; script-src onu engellemez.
+// 'wasm-unsafe-eval': yalnız WebAssembly derlemeye izin verir (eval değil). Rover modelinin meshopt
+// sıkıştırmasını açan çözücü WebAssembly'dir; bu olmadan ana sayfa sahnesi model yükleyemez.
 const CSP = [
   "default-src 'self'",
-  "script-src 'self'",
+  "script-src 'self' 'wasm-unsafe-eval'",
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data:",
   "font-src 'self'",

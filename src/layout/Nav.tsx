@@ -10,10 +10,10 @@ import s from './layout.module.css';
 type MenuKey = 'rover' | 'missions' | 'engineering' | 'station' | 'team' | 'sponsor';
 
 /** Menü: her ekran boyutunda 3 çizgi. Başlıklar ayrı sayfalarda açılır (kullanıcı isteği, 2026-11-22).
- *  "Görevler" ana sayfadaki sinematik Dünya turunun parçası olduğu için ana sayfa bölümüne gider. */
-const ITEMS: { key: MenuKey; page: PageId | null }[] = [
+ *  Ana sayfada yalnız 3B sahne vardır (kullanıcı isteği, 2026-11-22); Görevler de ayrı sayfadır. */
+const ITEMS: { key: MenuKey; page: PageId }[] = [
   { key: 'rover', page: 'rover' },
-  { key: 'missions', page: null },
+  { key: 'missions', page: 'gorevler' },
   { key: 'engineering', page: 'muhendislik' },
   { key: 'station', page: 'istasyon' },
   { key: 'team', page: 'takim' },
@@ -75,7 +75,6 @@ export function Nav() {
   }, [open]);
 
   const close = () => setOpen(false);
-  const hrefOf = (page: PageId | null) => (page ? pageHref(page) : sectionHref('missions'));
 
   // Menü üst çubuğun DIŞINDA durur: çubuktaki backdrop-filter, sabit konumlu alt öğeleri
   // çubuğun içine hapseder (menü 0 yükseklikte kalıyordu; B03+ düzeltmesi).
@@ -124,11 +123,11 @@ export function Nav() {
           <nav aria-label={t.a11y.menu} className={s.menuLinks}>
             <ol>
               {ITEMS.map((it, i) => {
-                const active = it.page !== null && it.page === here;
+                const active = it.page === here;
                 return (
                   <li key={it.key}>
                     <a
-                      href={hrefOf(it.page)}
+                      href={pageHref(it.page)}
                       onClick={close}
                       className={`${s.menuLink} ${it.key === 'sponsor' ? s.menuLinkCta : ''}`}
                       aria-current={active ? 'page' : undefined}

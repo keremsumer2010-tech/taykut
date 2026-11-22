@@ -39,7 +39,7 @@ describe('LCP önyüklemesi', () => {
   it('HTML’deki hero preload srcset’i medya manifestiyle aynı', () => {
     const m = manifest['hero-regolit'];
     const expected = m.widths.map((w) => `/taykut/media/hero-regolit-${w}.avif ${w}w`).join(', ');
-    for (const f of ['index.html', 'rover/index.html']) {
+    for (const f of ['rover/index.html']) {
       expect(readFileSync(f, 'utf8')).toContain(`imagesrcset="${expected}"`);
     }
   });

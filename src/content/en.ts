@@ -53,6 +53,25 @@ export const en = {
       'The SummerTech rover on a light gray gravel course: yellow TPU wheels, inverted-V aluminum rocker arms, a drill arm reaching forward and a white sample box on top.',
     strip: 'MRC 2026 · 4th overall',
   },
+  scene: {
+    location: 'Meteor Crater',
+    region: 'Arizona, USA',
+    shots: ['Crater', 'Descent', 'Suspension', 'Head-on', 'Rim view', 'Return'],
+    telemetry: {
+      pitch: 'Pitch',
+      roll: 'Roll',
+      rocker: 'Rocker',
+      bogie: 'Bogie',
+      speed: 'Speed',
+      dist: 'Odometer',
+    },
+    dataNote:
+      'Terrain is real satellite elevation data (Copernicus GLO-30). Rover: TAYKUT 2027 design model; suspension angles from our kinematics solver.',
+    pause: 'Pause animation',
+    play: 'Play animation',
+    loading: 'Loading terrain',
+    fallback: 'This browser cannot display the 3D scene.',
+  },
   inspect: {
     index: '01',
     kicker: 'Rover',

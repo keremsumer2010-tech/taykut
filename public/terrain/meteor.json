@@ -1,0 +1,13 @@
+{
+  "name": "Meteor Crater (Barringer), Arizona",
+  "center": [
+    35.0274,
+    -111.0228
+  ],
+  "sizeM": 4096.0,
+  "n": 513,
+  "minM": 1562.15,
+  "maxM": 1746.28,
+  "source": "Copernicus GLO-30 DEM (AWS open data)",
+  "attribution": "© DLR e.V. 2010–2014 and © Airbus Defence and Space GmbH 2014–2018, provided under COPERNICUS by the European Union and ESA"
+}

@@ -289,67 +289,6 @@
   color: var(--text-3);
 }
 
-/* ================= Bölüm göstergesi ================= */
-.rail {
-  position: fixed;
-  right: var(--space-5);
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: var(--z-hud);
-  display: none;
-  flex-direction: column;
-  gap: var(--space-3);
-}
-
-@media (min-width: 1280px) {
-  .rail {
-    display: flex;
-  }
-}
-
-.railItem {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: var(--space-3);
-  min-height: 24px;
-  color: var(--text-3);
-  text-decoration: none;
-}
-
-.railLabel {
-  opacity: 0;
-  transform: translateX(6px);
-  transition:
-    opacity var(--dur-2),
-    transform var(--dur-3) var(--ease-out-expo);
-}
-
-.railItem:hover .railLabel,
-.railItem:focus-visible .railLabel,
-.railActive .railLabel {
-  opacity: 1;
-  transform: none;
-}
-
-.railTick {
-  width: 10px;
-  height: 1px;
-  background: var(--line-strong);
-  transition:
-    width var(--dur-3) var(--ease-out-expo),
-    background-color var(--dur-2);
-}
-
-.railActive {
-  color: var(--text);
-}
-
-.railActive .railTick {
-  width: 24px;
-  background: var(--signal);
-}
-
 /* ================= İçeriğe atla ================= */
 .skip {
   position: fixed;

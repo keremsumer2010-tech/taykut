@@ -5,7 +5,7 @@ Sitede kullanılan her üçüncü taraf veri, doku, font, ses ve kütüphane bur
 ## Veri ve görsel varlıklar
 | Varlık | Kaynak (URL) | Lisans | Atıf metni | Kullanıldığı yer | Eklendiği bölüm |
 |---|---|---|---|---|---|
-| _(henüz yok)_ | | | | | |
+| Copernicus GLO-30 DEM, N35 W112 karosu (Meteor Krateri, 4×4 km kesit) | https://copernicus-dem-30m.s3.amazonaws.com/ (AWS açık veri) | Copernicus DEM lisansı (ücretsiz kullanım, atıf zorunlu) | © DLR e.V. 2010–2014 and © Airbus Defence and Space GmbH 2014–2018, provided under COPERNICUS by the European Union and ESA | Ana sayfa 3B sahnesi (`public/terrain/meteor.*`, `tools/terrain/bake_crater.py`) | Ana sayfa sahnesi (2026-11-22) |
 
 ## Kütüphaneler (çalışma zamanı)
 | Paket | Sürüm | Lisans |

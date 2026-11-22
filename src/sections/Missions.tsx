@@ -14,16 +14,17 @@ const POSTERS: Partial<Record<Region['id'], MediaName>> = {
   drumheller: 'dijital-ikiz',
 };
 
-export function Missions() {
+export function Missions({ page = false }: { page?: boolean }) {
   const t = useT();
   const lang = useLang();
   const sec = t.missions;
   const earth = REGIONS.filter((r) => r.body === 'earth');
   const mars = REGIONS.find((r) => r.body === 'mars');
   const wide = useMediaQuery('(min-width: 641px)', true);
+  const Sub = page ? 'h2' : 'h3';
 
   return (
-    <section id="missions" className="section" aria-labelledby="missions-title">
+    <section id="missions" className={`section ${page ? 'pageTop' : ''}`} aria-labelledby="missions-title">
       <div className="container">
         <SectionHeader
           id="missions-title"
@@ -31,6 +32,7 @@ export function Missions() {
           kicker={sec.kicker}
           title={sec.title}
           lead={sec.lead}
+          as={page ? 'h1' : 'h2'}
         />
 
         {/* B16: 3B küre bu alanın yerini alır; harita yedek modda kalır. */}
@@ -129,9 +131,9 @@ export function Missions() {
                     <span className={`t-label ${s.order}`}>{String(r.order).padStart(2, '0')}</span>
                     <StatusBadge kind={r.status}>{t.statuses[r.status]}</StatusBadge>
                   </div>
-                  <h3 id={`mission-${r.id}-title`} className="t-h3">
+                  <Sub id={`mission-${r.id}-title`} className="t-h3">
                     {text.name}
-                  </h3>
+                  </Sub>
                   <p className={`t-label ${s.place}`}>
                     {text.place}
                     {r.geo && (

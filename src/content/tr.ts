@@ -53,6 +53,25 @@ export const tr = {
       'SummerTech rover açık gri çakıllı parkurda: sarı TPU tekerlekler, ters V biçimli alüminyum rocker kolları, öne uzanan sondajlı kol ve üstte beyaz numune kutusu.',
     strip: 'MRC 2026 · Genel 4.',
   },
+  scene: {
+    location: 'Meteor Krateri',
+    region: 'Arizona, ABD',
+    shots: ['Krater', 'İniş', 'Süspansiyon', 'Önden', 'Kenardan bakış', 'Dönüş'],
+    telemetry: {
+      pitch: 'Eğim',
+      roll: 'Yatış',
+      rocker: 'Rocker',
+      bogie: 'Bogie',
+      speed: 'Hız',
+      dist: 'Yol',
+    },
+    dataNote:
+      'Arazi gerçek uydu yükseklik verisi (Copernicus GLO-30). Rover: TAYKUT 2027 tasarım modeli; süspansiyon açıları kinematik çözücüden.',
+    pause: 'Animasyonu durdur',
+    play: 'Animasyonu oynat',
+    loading: 'Arazi yükleniyor',
+    fallback: 'Bu tarayıcı 3B sahneyi gösteremiyor.',
+  },
   inspect: {
     index: '01',
     kicker: 'Rover',

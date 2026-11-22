@@ -20,6 +20,7 @@ export default defineConfig({
         main: fileURLToPath(new URL('./index.html', import.meta.url)),
         sponsor: fileURLToPath(new URL('./sponsor/index.html', import.meta.url)),
         rover: fileURLToPath(new URL('./rover/index.html', import.meta.url)),
+        gorevler: fileURLToPath(new URL('./gorevler/index.html', import.meta.url)),
         basin: fileURLToPath(new URL('./basin/index.html', import.meta.url)),
         muhendislik: fileURLToPath(new URL('./muhendislik/index.html', import.meta.url)),
         istasyon: fileURLToPath(new URL('./istasyon/index.html', import.meta.url)),

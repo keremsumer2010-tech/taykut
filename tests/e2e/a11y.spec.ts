@@ -2,7 +2,17 @@ import AxeBuilder from '@axe-core/playwright';
 import { expect, test } from '@playwright/test';
 
 // Her sayfa, iki dilde: ciddi ve kritik erişilebilirlik ihlali olmamalı (WCAG 2.2 A/AA kuralları).
-const PATHS = ['', 'rover/', 'muhendislik/', 'istasyon/', 'takim/', 'sponsor/', 'basin/', '404.html'];
+const PATHS = [
+  '',
+  'rover/',
+  'gorevler/',
+  'muhendislik/',
+  'istasyon/',
+  'takim/',
+  'sponsor/',
+  'basin/',
+  '404.html',
+];
 
 for (const lang of ['', 'en/']) {
   for (const p of PATHS) {

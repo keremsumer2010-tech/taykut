@@ -1,15 +1,18 @@
 // Lighthouse denetimi: derlenmiş siteyi önizleme sunucusunda açar, sayfaları ölçer, eşikleri denetler.
 // Kullanım: npm run build && npm run lhci     (CHROME_PATH verilmezse sistem Chrome'u aranır)
 // Eşikler (mobil profil): erişilebilirlik ≥ 98, en iyi uygulamalar ≥ 95, SEO = 100, performans ≥ 80.
-// Performans CI makinelerinde oynaktır; eşik B22'de 3D ile birlikte yeniden değerlendirilecek.
+// Ana sayfa (/, /en/) istisnası: tam ekran WebGL sahnesi (gerçek arazi + rover). Ağır hesap Worker'da, poster
+// LCP'yi 0,8 sn'de verir; kalan engelleme WebGL'in ilk karesi ve gölgelendirici hazırlığıdır (4× yavaş CPU'da
+// kaçınılmaz). Bu iki sayfada performans eşiği 60; diğer tüm sayfalarda 80. (Karar: 2026-11-22, ILERLEME.md)
 import { spawn, execFileSync } from 'node:child_process';
 import { appendFileSync, mkdirSync, readFileSync } from 'node:fs';
 import { setTimeout as sleep } from 'node:timers/promises';
 
 const PORT = 4175;
 const BASE = `http://localhost:${PORT}/taykut/`;
-const PAGES = ['', 'en/', 'rover/', 'muhendislik/', 'istasyon/', 'takim/', 'sponsor/', 'basin/'];
+const PAGES = ['', 'en/', 'rover/', 'gorevler/', 'muhendislik/', 'istasyon/', 'takim/', 'sponsor/', 'basin/'];
 const MIN = { performance: 80, accessibility: 98, 'best-practices': 95, seo: 100 };
+const PERF_3D = 60; // 3B ana sayfa
 const OUT = 'tools/.cache/lighthouse';
 
 mkdirSync(OUT, { recursive: true });
@@ -58,8 +61,9 @@ try {
     const scores = Object.fromEntries(
       Object.keys(MIN).map((k) => [k, Math.round(r.categories[k].score * 100)]),
     );
+    const is3d = p === '' || p === 'en/';
     const fails = Object.entries(MIN)
-      .filter(([k, min]) => scores[k] < min)
+      .filter(([k, min]) => scores[k] < (k === 'performance' && is3d ? PERF_3D : min))
       .map(([k]) => k);
     if (fails.length) failed = true;
     rows.push({

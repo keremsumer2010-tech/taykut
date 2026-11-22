@@ -1,9 +1,9 @@
 import { expect, test, type Page } from '@playwright/test';
 
-// Ana sayfa sinematik akış; diğer başlıklar menüden ayrı sayfalarda açılır (kullanıcı isteği, 2026-11-22).
-const HOME_SECTIONS = ['rover', 'missions', 'numbers', 'sponsor-cta'];
+// Ana sayfa yalnız tam ekran 3B sahne; diğer başlıklar menüden ayrı sayfalarda açılır (kullanıcı isteği, 2026-11-22).
 const PAGES = [
   { path: 'rover/', title: /Rover’larımız — TAYKUT/ },
+  { path: 'gorevler/', title: /Görevler — TAYKUT/ },
   { path: 'muhendislik/', title: /Mühendislik — TAYKUT/ },
   { path: 'istasyon/', title: /Yer İstasyonu — TAYKUT/ },
   { path: 'takim/', title: /Takım — TAYKUT/ },
@@ -20,14 +20,41 @@ async function collectErrors(page: Page) {
 }
 
 test.describe('ana sayfa', () => {
-  test('sinematik bölümler var, tek h1, konsol temiz', async ({ page }) => {
+  test('3B krater sahnesi yüklenir (gerçek CSP altında), tek h1, konsol temiz', async ({
+    page,
+    browserName,
+  }) => {
     const errors = await collectErrors(page);
     await page.goto('./?lang=tr');
-    for (const id of HOME_SECTIONS) await expect(page.locator(`#${id}`)).toHaveCount(1);
     await expect(page.locator('h1')).toHaveCount(1);
     await expect(page.locator('h1')).toHaveText('TAYKUT');
-    await page.waitForLoadState('networkidle');
+    const stage = page.locator('section[data-state]');
+    // GPU'lu tarayıcıda "ready"; başsız/GPU'suz tarayıcıda poster ("still"); WebGL yoksa "failed".
+    await expect(stage).toHaveAttribute('data-state', /ready|still|failed/, { timeout: 45_000 });
+    await expect(page.locator('section[data-state] picture img')).toBeVisible();
     expect(errors).toEqual([]);
+    void browserName;
+  });
+
+  test('3B sahne gerçek CSP altında kurulur (WebAssembly çözücü, Worker, GLB)', async ({
+    page,
+    browserName,
+  }) => {
+    test.skip(browserName !== 'chromium', 'yazılımsal WebGL ile yavaş; tek tarayıcıda yeterli');
+    test.setTimeout(120_000);
+    const errors = await collectErrors(page);
+    await page.goto('./?lang=tr&force3d=1&t=0.4');
+    await expect(page.locator('section[data-state]')).toHaveAttribute('data-state', 'ready', {
+      timeout: 110_000,
+    });
+    expect(errors).toEqual([]);
+  });
+
+  test('sahnedeki düğmeler Rover ve Görevler sayfalarına götürür', async ({ page }) => {
+    await page.goto('./?lang=tr');
+    await page.locator('#main').getByRole('link', { name: 'Görevler' }).click();
+    await expect(page).toHaveURL(/\/taykut\/gorevler\/$/);
+    await expect(page.locator('h1')).toContainText('Altı yer');
   });
 
   test('"Sponsor Ol" tek tıkla sponsor sayfasına götürür', async ({ page }) => {
@@ -37,8 +64,10 @@ test.describe('ana sayfa', () => {
     await expect(page.locator('h1')).toHaveText('Sponsorluk');
   });
 
-  test('6 görev bölgesi; harita pini (geniş) veya bölge listesi (dar) bölgeye götürür', async ({ page }) => {
-    await page.goto('./?lang=tr');
+  test('Görevler: 6 bölge; harita pini (geniş) veya bölge listesi (dar) bölgeye götürür', async ({
+    page,
+  }) => {
+    await page.goto('./gorevler/?lang=tr');
     await expect(page.locator('li[id^="mission-"]')).toHaveCount(6);
     const narrow = (page.viewportSize()?.width ?? 1440) <= 640;
     const link = narrow
@@ -48,20 +77,13 @@ test.describe('ana sayfa', () => {
     await expect(page.locator('#mission-drumheller')).toBeInViewport();
   });
 
-  test('keşif kartları ayrı sayfalara götürür', async ({ page }) => {
-    await page.goto('./?lang=tr');
-    const cards = page.locator('#sponsor-cta ul a');
-    await expect(cards).toHaveCount(3);
-    await cards.filter({ hasText: 'Yer İstasyonu' }).click();
-    await expect(page).toHaveURL(/\/istasyon\//);
-  });
-
   test('İngilizce sürüm: /en/ yolu önceden üretilmiş İngilizce HTML', async ({ page }) => {
     const res = await page.goto('./en/');
     expect(await res?.text()).toContain('Become a Sponsor'); // JS çalışmadan önce HTML'de
 
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
     await expect(page.getByRole('link', { name: 'Become a Sponsor' }).first()).toBeVisible();
+    await page.goto('./en/gorevler/');
     await expect(page.locator('#numbers')).toContainText('4th');
   });
 

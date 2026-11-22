@@ -5,6 +5,7 @@ import type { Content } from '@/content/schema';
 import type { RouteId } from '@/lib/route';
 import { App } from '@/App';
 import { EngineeringPage } from './EngineeringPage';
+import { MissionsPage } from './MissionsPage';
 import { NotFoundPage } from './NotFoundPage';
 import { PressPage } from './PressPage';
 import { RoverPage } from './RoverPage';
@@ -25,6 +26,11 @@ export const PAGES: Record<RouteId, PageDef> = {
     Component: RoverPage,
     title: (t) => `${t.pages.rover.title} — TAYKUT`,
     description: (t) => t.pages.rover.lead,
+  },
+  gorevler: {
+    Component: MissionsPage,
+    title: (t) => `${t.nav.missions} — TAYKUT`,
+    description: (t) => t.missions.lead ?? t.meta.description,
   },
   muhendislik: {
     Component: EngineeringPage,

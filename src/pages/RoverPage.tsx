@@ -5,6 +5,7 @@ import type { Kind, SpecId } from '@/content/schema';
 import rover2027 from '@/content/rover2027.generated.json';
 import { formatFact, kindNote, useLang, useT } from '@/lib/i18n';
 import { Page } from '@/layout/Page';
+import { Inspect } from '@/sections/Inspect';
 import { PageHeader } from './PageHeader';
 import s from './pages.module.css';
 
@@ -116,6 +117,7 @@ export function RoverPage() {
           </div>
         </section>
       </div>
+      <Inspect />
     </Page>
   );
 }

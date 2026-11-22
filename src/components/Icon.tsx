@@ -20,6 +20,7 @@ const PATHS = {
   menu: <path d="M4 7h16M4 12h16M4 17h10" />,
   close: <path d="M6 6l12 12M18 6 6 18" />,
   play: <path d="M8 5v14l11-7z" />,
+  pause: <path d="M8 5v14M16 5v14" />,
   'sound-on': (
     <>
       <path d="M4 9v6h4l5 4V5L8 9z" />

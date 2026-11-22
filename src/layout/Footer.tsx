@@ -3,7 +3,7 @@ import { Logo } from '@/components/Logo';
 import { CONTACT } from '@/content/contact';
 import { ATTRIBUTIONS } from '@/content/attributions';
 import { useT } from '@/lib/i18n';
-import { pageHref, sectionHref } from '@/lib/links';
+import { pageHref } from '@/lib/links';
 import { LangSwitch } from './LangSwitch';
 import s from './layout.module.css';
 
@@ -29,7 +29,7 @@ export function Footer() {
         <div className={`span-3 ${s.footerCol}`}>
           <h2 className="t-label">TAYKUT</h2>
           <a href={pageHref('rover')}>{t.nav.rover}</a>
-          <a href={sectionHref('missions')}>{t.nav.missions}</a>
+          <a href={pageHref('gorevler')}>{t.nav.missions}</a>
           <a href={pageHref('muhendislik')}>{t.nav.engineering}</a>
           <a href={pageHref('istasyon')}>{t.nav.station}</a>
           <a href={pageHref('takim')}>{t.nav.team}</a>

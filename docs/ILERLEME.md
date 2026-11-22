@@ -4,6 +4,48 @@ En yeni bölüm en üstte. Her bölüm: plan, yapılanlar, ölçümler, sapmalar
 
 ---
 
+## Ana sayfa 3B sahnesi — Meteor Krateri (2026-11-22)
+
+**İstek (kullanıcı):** Site kitap gibi duruyordu. Ana sayfada yalnız akışlı, hareketli, gerçek dünya verisiyle bir animasyon olacak: kraterde gezen rover. Yarışmalar ve diğer her şey menüden açılacak.
+
+**Plan:** B09, B11, B12 ve B13'ün ana sayfaya yetecek çekirdeği öne çekildi: gerçek DEM, rover ölçeğinde ayrıntı, kinematikle sürülen model, sinematik kamera. Küre (B16), diğer bölgeler (B18) ve HUD'un tamamı (B14) planda kalıyor.
+
+### Yapılanlar
+- **Gerçek arazi:** `tools/terrain/bake_crater.py`. Copernicus GLO-30 DEM (AWS açık veri, anahtarsız, SHA-256 sabit) → 4×4 km, 8 m metrik ızgara, RGB kodlu yükseklik (`public/terrain/meteor.png`, 344 KB). Krater çanağı ve kenar sırtı veriden bulundu: taban kenardan ≈170 m aşağıda.
+- **Rover ölçeği:** güney-güneydoğu kenarda 64×64 m ayrıntılı zemin. Taban gerçek verinin bikübik örneği; üstüne prosedürel çakıl dokusu ve 420 kaya eklendi. Kayalar yükseklik alanına da giriyor, yani teker gördüğü kayaya basıyor. Kenarlar 8 m boyunca titreşimli saydamlıkla (alphaHash) geniş araziye eriyor.
+- **Rover:** `taykut2027.lod0.glb`, 700 noktalık rota boyunca `solveRoute` pozlarıyla sürülüyor. Rocker, bogie ve diferansiyel çözücüden geliyor; tekerlek dönüşü taraf başına hesaplanıyor. Arka tekerlerden toz kalkıyor.
+- **Kamera:** 54 sn'lik döngüde 6 çekim (krater, iniş, yandan süspansiyon, önden, kenardan krater bakışı, dönüş), aralarında yumuşak geçiş. Rover geniş ekranda sağ üçte birde, dar ekranda üst yarıda. Kamera hiçbir zaman zeminin altına inmiyor.
+- **Katman:** başlık sol altta. Sağ altta canlı telemetri (eğim, yatış, rocker, bogie, hız, yol), veri notu ve durdur düğmesi var.
+- **Bilgi mimarisi:** ana sayfada yalnız sahne var. Yeni `/gorevler/` sayfasında görevler ve rakamlar, `/rover/` sayfasında parça incelemesi duruyor. Menüdeki "Görevler" artık bu sayfaya gidiyor. Kullanılmaz hale gelen Hero, SponsorCta ve ProgressRail kaldırıldı.
+- **Performans:** three.js ve sahne dinamik import ile yükleniyor (ilk yük 104 KB). Arazi, renk, normaller, geometri tamponları ve rota Web Worker'da hazırlanıyor. Ortam ışığı haritası ilk kareden sonra boşta üretiliyor. Gölgelendiriciler asenkron derleniyor.
+- **Yedekler:** sahneden üretilen poster karesi (`tools/stage/poster.mjs`) hem LCP öğesi hem yükleme ekranı. GPU'suz tarayıcıda poster kalıyor, hareket azaltma tercihinde tek kare çiziliyor, WebGL yoksa yedek metin çıkıyor.
+- **Güvenlik:** CSP'ye `'wasm-unsafe-eval'` eklendi. Yalnız WebAssembly'ye izin veriyor; meshopt çözücüsü bunu gerektiriyor.
+
+### Ölçümler
+- 4× yavaş CPU'da ana iş parçacığı engellemesi: ilk sürüm saniyelerce kilitliyordu. Parçalara bölme ile ≈2,3 sn'ye, Worker ile 1,34 sn'ye indi. Geometri kurulumu 691 ms'den 92 ms'ye düştü.
+- Lighthouse (mobil): ana sayfa performans 69–70, LCP 0,8 sn, erişilebilirlik, en iyi uygulamalar ve SEO 100. Diğer 7 sayfa 93–100.
+- Birim test 45/45. Uçtan uca 137 geçti, 3 atlandı. 1 WebKit dil testi yük altında oynak; tek başına 3/3 geçiyor. Yeni test: `?force3d` ile 3B sahnenin gerçek CSP altında (WebAssembly, Worker, GLB) "ready" durumuna geldiği doğrulanıyor.
+
+### Mükemmellik turları
+1. Başlık rover'ın önüne düşüyordu → yazı küçültüldü, kadraj kaydırması eklendi.
+2. Ufukta verinin kenarı ve sis duvarı görünüyordu → etek düzlemi eklendi, sis rengi ufuk rengine eşitlendi.
+3. Ayrıntılı zeminde 8 m'de bir çizgiler vardı. Kök neden: bilinear aradeğerlemenin hücre sınırlarındaki kırılması → bikübik aradeğerleme.
+4. Ayrıntılı karenin kenarı belli oluyordu → alfa sönümü, dokunun ortalaması 1'e çekildi.
+5. Dönüş çekimi kraterin içinden geçiyordu → kamera önce dışarı ve yukarı çekiliyor.
+6. **Yayında model hiç yüklenmeyecekti:** CSP WebAssembly'yi engelliyordu, geliştirme sunucusunda CSP olmadığı için görünmüyordu → düzeltildi ve test eklendi.
+7. Kurulum sayfayı kilitliyor ve testleri zaman aşımına düşürüyordu → Worker'a taşındı.
+
+### Kararlar ve sapmalar
+- **Ana sayfa Lighthouse performans eşiği 60** (diğer sayfalar 80). Gerekçe: tam ekran WebGL'in ilk karesi ve gölgelendirici hazırlığı, 4× yavaş CPU'da kaçınılmaz. Alternatif: 3B'yi kullanıcı etkileşimine ertelemek (puan 80+, ama açılışta poster görünür).
+- Rover ölçeğinin altındaki ayrıntı (≤30 m) prosedürel; veri notu sitede yazıyor. Uydu dokusu kullanılmadı, renk yükseklik ve eğimden üretiliyor (anayasa §tercih).
+- Krater kenarı rover güzergâhı gerçek arazi verisinden; rover'ın Meteor Krateri'nde gerçekten bulunduğu iddia edilmiyor (tasarım modeli, simülasyon).
+
+### Doğrulanmayanlar
+- Gerçek mobil cihazlarda FPS ölçülmedi; yalnız masaüstü GPU (AMD 610M) ve öykünme.
+- Tripo döner kaydı ve SummerTech modeli bu turda siteye eklenmedi.
+
+---
+
 ## B07 — TAYKUT 2027 Rover 3B Modeli (2026-11-22)
 
 **Plan:** Dijital ikizin URDF link parçalarından, `rover_params.yaml` ölçüleriyle birebir eklemli web modeli; 3 LOD; meshopt sıkıştırma; parametrelere karşı otomatik doğrulama; kinematik çözücüyle uyum denetimi.

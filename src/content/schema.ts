@@ -64,6 +64,18 @@ export interface Content {
     /** Alt şerit: yarışma sonucu satırı */
     strip: string;
   };
+  /** Ana sayfa 3B sahnesi (Meteor Krateri, gerçek arazi verisi) */
+  scene: {
+    location: string;
+    region: string;
+    shots: string[]; // 6 kamera çekiminin adı (HUD)
+    telemetry: { pitch: string; roll: string; rocker: string; bogie: string; speed: string; dist: string };
+    dataNote: string;
+    pause: string;
+    play: string;
+    loading: string;
+    fallback: string;
+  };
   inspect: SectionText & {
     parts: Record<PartId, { name: string; spec: string }>;
     imageAlt: string;

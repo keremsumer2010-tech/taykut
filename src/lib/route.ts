@@ -3,9 +3,17 @@
 import type { Lang } from '@/content/schema';
 
 export const BASE = import.meta.env.BASE_URL; // "/taykut/"
-export type PageId = 'rover' | 'muhendislik' | 'istasyon' | 'takim' | 'sponsor' | 'basin';
+export type PageId = 'rover' | 'gorevler' | 'muhendislik' | 'istasyon' | 'takim' | 'sponsor' | 'basin';
 export type RouteId = PageId | 'home' | 'notfound';
-export const PAGE_IDS: PageId[] = ['rover', 'muhendislik', 'istasyon', 'takim', 'sponsor', 'basin'];
+export const PAGE_IDS: PageId[] = [
+  'rover',
+  'gorevler',
+  'muhendislik',
+  'istasyon',
+  'takim',
+  'sponsor',
+  'basin',
+];
 
 export interface Route {
   lang: Lang;
