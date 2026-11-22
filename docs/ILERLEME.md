@@ -4,6 +4,42 @@ En yeni bölüm en üstte. Her bölüm: plan, yapılanlar, ölçümler, sapmalar
 
 ---
 
+## Uzay açılışı — derin uzaydan Meteor Krateri'ne (2026-11-22)
+
+**İstek (kullanıcı):** "Çok detaylı bir uzay kurgusu, dehşet iyi bir açılış." Higgsfield'de video üretimi için kredi yetmedi (API 8,25 kredi; en ucuz deneme 12), bu yüzden açılış sitenin içinde gerçek zamanlı 3B olarak kuruldu.
+
+### Yapılanlar
+- `src/scene/space/SpaceIntro.ts` (16 sn, ayrı tuval):
+  - **Yıldızlar:** Yale Bright Star Catalogue'dan 9.096 gerçek yıldız. Parlaklık kadirden, renk B−V'den (sıcaklık → siyah cisim) hesaplanıyor. Üstüne galaktik düzlemde yoğunlaşan 28.000 sönük yıldız eklendi.
+  - **Samanyolu:** gerçek galaktik kutup ve merkez yönünde bant, toz şeritleri ve galaktik merkeze doğru parlama.
+  - **Güneş:** mercek parlaması var; ilk karede Dünya'nın kenarından doğuyor.
+  - **Dünya:** NASA Blue Marble gündüz, Black Marble gece ışıkları, okyanus maskesiyle yalnız suda güneş parıltısı, bulut gölgesi, alacakaranlık kızıllığı, ayrı dönen bulut katmanı ve gün doğumunda ileri saçılımlı atmosfer halesi.
+  - **Alçak irtifa:** krater çevresinin 2°×2°'lik bölgesi 4 Copernicus karosundan gölgelendirilmiş rölyef olarak çıkarıldı (≈108 m/piksel), tonu Blue Marble'dan alındı (`tools/space/bake_region.py`).
+  - **Kamera:** anahtar karelerle (yön ve logaritmik irtifa) 52.000 km'den 6 km'ye iniyor. Geniş ekranda Dünya kadrajın sağında.
+  - **HUD:** evre adı, irtifa ve kameranın altındaki yer noktası. "Açılışı geç" düğmesi var.
+- **Geçiş:** krater sahnesi açılış oynarken gizli tuvalde kurulup duraklatılmış bekliyor. Pus rengi kraterin ufuk rengiyle aynı, böylece krater pusun içinden dikişsiz açılıyor ve döngü 0'dan başlıyor.
+- **Yavaş cihaz koruması:** açılışın ilk karelerinde hız 12 kare/sn'nin altındaysa doğrudan atmosfere girişe atlanıyor. Krater sahnesinde önce çözünürlük 1×'e iniyor, yine yavaşsa sabit kareye geçiliyor.
+- **İnceleme anahtarları:** `?it=6` açılışı o saniyede dondurur. `?t=` ve hareket azaltma tercihinde açılış oynamaz. `?capture` kare kare kayıt kancasıdır (`tools/stage/record.mjs`).
+- **Poster:** yalnız GPU'suz cihazlarda ve WebGL yoksa gösteriliyor; yükleme sırasında derin uzay zemini görünüyor.
+
+### Ölçümler
+- Lighthouse (mobil): ana sayfa 67–68, LCP 0,8 sn, erişilebilirlik, en iyi uygulamalar ve SEO 100. Diğer sayfalar 91–100.
+- Uçtan uca 140 geçti, 4 atlandı. Yeni test: açılış oynar, "Açılışı geç" ile krater sahnesi hazır olur.
+- Veri boyutu: gündüz dokusu 688 KB (mobilde 178 KB), gece 94 KB, bulut 301 KB, rölyef 300 KB, yıldızlar 177 KB. Hepsi ilk yükten sonra iniyor.
+
+### Mükemmellik turları
+1. Yıldızlar görünmüyordu. Kök neden: toplamalı karıştırmada saydamlık iki kez çarpılıyor, sönük yıldızlar sıfıra iniyordu → düzeltildi.
+2. Güneş Dünya'nın çok üstündeydi → açısal yarıçapa göre kenara konumlandı.
+3. Atmosfer kenarı beyaz, sert çizgi gibiydi → yumuşak, ince hale.
+4. Alçak irtifada 4K doku bulanıktı (≈10 km/piksel) → Copernicus rölyefi eklendi; pus yalnız son 120 km'de.
+5. HUD'daki "hız" sıkıştırılmış zaman yüzünden 600.000 km/s gösteriyordu → yerine kameranın altındaki koordinat.
+6. NASA görüntü sunucusu yanıt vermedi, Wikimedia büyük dosyada 429 verdi → aynı kamu malı NASA görüntülerinin Commons sürümleri ve Copernicus kullanıldı.
+
+### Higgsfield Genjutsu denemesi
+Kullanıcının ücretsiz hakkıyla çalıştırıldı (yükleme sözleşmesi kullanıcının açık onayıyla kabul edildi). Referans video krater sahnesinden kaydedildi (14 sn, VP9 WebM; mp4v tarayıcıda açılmadı), 30 görsel bizim modelden verildi. Sonuç (1280×720, 14 sn) neredeyse girdinin aynısı çıktı, fotoğraf gerçekçiliği eklenmedi. Canlı 3B sahneden üstün olmadığı için siteye konmadı.
+
+---
+
 ## Ana sayfa 3B sahnesi — Meteor Krateri (2026-11-22)
 
 **İstek (kullanıcı):** Site kitap gibi duruyordu. Ana sayfada yalnız akışlı, hareketli, gerçek dünya verisiyle bir animasyon olacak: kraterde gezen rover. Yarışmalar ve diğer her şey menüden açılacak.

@@ -4,16 +4,50 @@
   min-height: 600px;
   overflow: hidden;
   isolation: isolate;
-  /* Sahne yüklenene kadar: krater gökyüzü tonlarında sakin zemin (boş siyah ekran yok) */
-  background:
-    radial-gradient(120% 70% at 70% 100%, #6b4e36 0%, transparent 60%),
-    linear-gradient(to bottom, #1f3554 0%, #6f6a66 58%, #b08a63 72%, #3a2c22 100%);
+  /* Sahne yüklenene kadar: derin uzay (açılış buradan başlar) */
+  background: radial-gradient(60% 50% at 70% 40%, rgb(60 80 140 / 0.18) 0%, transparent 70%), #020306;
 }
 
 .poster {
   position: absolute;
   inset: 0;
   z-index: -3;
+  display: none;
+}
+
+/* Yalnız GPU'suz cihazlarda ve WebGL yoksa */
+.stage[data-state='still'] .poster,
+.stage[data-state='failed'] .poster {
+  display: block;
+}
+
+/* Uzay açılışı: krater tuvalinin üstünde; bitince pusun içinden krater görünür */
+.intro {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.intro canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Geçiş pusu: krater ufuk rengi (açılışın son karesiyle aynı), krater hazır olunca açılır */
+.haze {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: #e7c39a;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1.8s ease-out;
+}
+
+.stage[data-state='intro'] .haze {
+  opacity: 1;
 }
 
 .poster img {
@@ -30,8 +64,13 @@
   transition: opacity 1.6s var(--ease-out, ease-out);
 }
 
-.stage[data-state='ready'] .canvas {
+.stage[data-state='ready'] .canvas,
+.stage[data-state='intro'] .canvas {
   opacity: 1;
+}
+
+.stage[data-state='intro'] .canvas {
+  transition: none;
 }
 
 .canvas canvas {
@@ -185,6 +224,10 @@
   font-size: 15px;
   color: var(--signal);
   font-variant-numeric: tabular-nums;
+}
+
+.tel .wide {
+  grid-column: span 2;
 }
 
 .unit {

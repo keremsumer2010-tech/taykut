@@ -66,6 +66,10 @@ export interface Content {
   };
   /** Ana sayfa 3B sahnesi (Meteor Krateri, gerçek arazi verisi) */
   scene: {
+    introPhases: string[]; // 4 açılış evresi (HUD)
+    altitude: string;
+    nadir: string;
+    skip: string;
     location: string;
     region: string;
     shots: string[]; // 6 kamera çekiminin adı (HUD)

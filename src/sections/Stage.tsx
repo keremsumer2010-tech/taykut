@@ -6,9 +6,16 @@ import { useLang, useT } from '@/lib/i18n';
 import { pageHref } from '@/lib/links';
 import { BASE } from '@/lib/route';
 import type { Telemetry } from '@/scene/crater/CraterScene';
+import type { IntroTelemetry } from '@/scene/space/SpaceIntro';
 import s from './Stage.module.css';
 
 const CRATER = { lat: 35.0274, lon: -111.0228 };
+
+/** ?it=6 → uzay açılışını o saniyede dondurur (inceleme). */
+function introTime(): number | undefined {
+  const v = Number(new URLSearchParams(location.search).get('it'));
+  return Number.isFinite(v) && v > 0 ? v : undefined;
+}
 
 /** ?t=0.55 → sahneyi döngünün o anında dondurur (inceleme ve görsel testler). */
 function fixedT(): number | undefined {
@@ -22,15 +29,19 @@ export function Stage() {
   const t = useT();
   const lang = useLang();
   const host = useRef<HTMLDivElement>(null);
+  const introHost = useRef<HTMLDivElement>(null);
   const ctrl = useRef<{ setPlaying: (p: boolean) => void; dispose: () => void } | null>(null);
-  const [state, setState] = useState<'idle' | 'loading' | 'ready' | 'still' | 'failed'>('idle');
+  const intro = useRef<{ skip: () => void; dispose: () => void } | null>(null);
+  const [state, setState] = useState<'idle' | 'intro' | 'loading' | 'ready' | 'still' | 'failed'>('idle');
+  const [introTel, setIntroTel] = useState<IntroTelemetry | null>(null);
   const [tel, setTel] = useState<Telemetry | null>(null);
   const [playing, setPlaying] = useState(true);
   const [reduced, setReduced] = useState(false);
 
   useEffect(() => {
     const el = host.current;
-    if (!el) return;
+    const introEl = introHost.current;
+    if (!el || !introEl) return;
     let cancelled = false;
     // İlk boyama ve etkileşim önce gelsin; sahne boşta kalınca kurulur.
     const idle = (cb: () => void) =>
@@ -44,7 +55,6 @@ export function Stage() {
         setState('failed');
         return;
       }
-      // GPU yoksa (yazılımsal WebGL) sürekli döngü sayfayı kilitler: tek kare çizilir, animasyon oynamaz.
       const dbg = gl.getExtension('WEBGL_debug_renderer_info');
       const gpu = dbg ? String(gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL)) : '';
       const software = /swiftshader|llvmpipe|softpipe|software|basic render/i.test(gpu);
@@ -56,29 +66,67 @@ export function Stage() {
         setState('still');
         return;
       }
-      const still = rm;
-      setReduced(still);
-      setState('loading');
-      import('@/scene/crater/CraterScene')
+      setReduced(rm);
+      const ft = fixedT();
+      // Açılış: hareket azaltma ve sabit an (?t=) dışında her girişte oynar.
+      const withIntro = !rm && ft === undefined;
+      setState(withIntro ? 'intro' : 'loading');
+
+      let craterReady = false;
+      let handedOff = false;
+      const reveal = () => {
+        if (cancelled || !craterReady || !handedOff) return;
+        ctrl.current?.setPlaying(true);
+        setState('ready');
+        intro.current?.dispose();
+        intro.current = null;
+      };
+
+      const crater = import('@/scene/crater/CraterScene')
         .then(({ startCraterScene }) =>
           startCraterScene(el, {
             base: BASE,
-            reducedMotion: still,
+            reducedMotion: rm,
             onTelemetry: setTel,
-            fixedT: fixedT(),
+            fixedT: ft,
+            startPaused: withIntro,
+            onSlow: () => setReduced(true),
           }),
         )
         .then((c) => {
-          if (cancelled) c.dispose();
-          else {
-            ctrl.current = c;
-            setState('ready');
-          }
-        })
-        .catch(() => !cancelled && setState('failed'));
+          if (cancelled) return c.dispose();
+          ctrl.current = c;
+          craterReady = true;
+          if (withIntro) reveal();
+          else setState('ready');
+        });
+
+      const space = withIntro
+        ? import('@/scene/space/SpaceIntro')
+            .then(({ startSpaceIntro }) =>
+              startSpaceIntro(introEl, {
+                base: BASE,
+                onTelemetry: setIntroTel,
+                fixedTime: introTime(),
+                onHandoff: () => {
+                  handedOff = true;
+                  reveal();
+                },
+              }),
+            )
+            .then((i) => {
+              if (cancelled) return i.dispose();
+              intro.current = i;
+              i.play();
+            })
+        : Promise.resolve();
+
+      Promise.all([crater, space]).catch(() => !cancelled && setState('failed'));
     });
     return () => {
       cancelled = true;
+      intro.current?.dispose();
+      intro.current = null;
       ctrl.current?.dispose();
       ctrl.current = null;
     };
@@ -100,16 +148,18 @@ export function Stage() {
 
   return (
     <section className={s.stage} aria-labelledby="stage-title" data-state={state}>
-      {/* Poster: sahnenin önceden alınmış karesi. 3B hazır olana kadar ve GPU'suz cihazlarda görünür. */}
+      {/* Poster: sahnenin önceden alınmış karesi. Yalnız GPU'suz cihazlarda ve WebGL yoksa görünür. */}
       <picture className={s.poster}>
         <source
           media="(max-width: 860px)"
           srcSet={`${BASE}media/stage-poster-mobile.webp`}
           type="image/webp"
         />
-        <img src={`${BASE}media/stage-poster.webp`} alt="" width={1600} height={956} fetchPriority="high" />
+        <img src={`${BASE}media/stage-poster.webp`} alt="" width={1600} height={956} loading="lazy" />
       </picture>
       <div ref={host} className={s.canvas} />
+      <div className={s.haze} aria-hidden="true" />
+      <div ref={introHost} className={s.intro} />
       <div className={s.shade} aria-hidden="true" />
 
       <div className={`container ${s.copy}`}>
@@ -139,6 +189,27 @@ export function Stage() {
           <span className={`t-mono ${s.muted}`}>{sc.region}</span>
         </div>
         <p className={`t-mono ${s.coords}`}>{formatLatLon(CRATER.lat, CRATER.lon, lang, 4)}</p>
+        {state === 'intro' && introTel && (
+          <>
+            <p className={`t-mono ${s.shot}`} aria-hidden="true">
+              <span>{String(introTel.phase + 1).padStart(2, '0')}</span> / 04 ·{' '}
+              {sc.introPhases[introTel.phase]}
+            </p>
+            <dl className={s.tel} aria-hidden="true">
+              <div className={s.wide}>
+                <dt>{sc.altitude}</dt>
+                <dd>
+                  {fmt(introTel.altitudeKm, introTel.altitudeKm < 100 ? 1 : 0)}{' '}
+                  <span className={s.unit}>km</span>
+                </dd>
+              </div>
+              <div className={s.wide}>
+                <dt>{sc.nadir}</dt>
+                <dd>{formatLatLon(introTel.lat, ((introTel.lon + 540) % 360) - 180, lang, 1)}</dd>
+              </div>
+            </dl>
+          </>
+        )}
         {state === 'ready' && tel && (
           <>
             <p className={`t-mono ${s.shot}`} aria-hidden="true">
@@ -176,9 +247,15 @@ export function Stage() {
             </dl>
           </>
         )}
-        {state === 'loading' && <p className={`t-mono ${s.muted}`}>{sc.loading}…</p>}
+        {(state === 'loading' || state === 'idle') && <p className={`t-mono ${s.muted}`}>{sc.loading}…</p>}
         {state === 'failed' && <p className={`t-mono ${s.muted}`}>{sc.fallback}</p>}
         <p className={s.note}>{sc.dataNote}</p>
+        {state === 'intro' && (
+          <button type="button" className={s.play} onClick={() => intro.current?.skip()}>
+            <Icon name="arrow-right" size={16} />
+            <span>{sc.skip}</span>
+          </button>
+        )}
         {state === 'ready' && !reduced && (
           <button type="button" className={s.play} onClick={toggle} aria-pressed={!playing}>
             <Icon name={playing ? 'pause' : 'play'} size={16} />

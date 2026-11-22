@@ -54,6 +54,10 @@ export const tr = {
     strip: 'MRC 2026 · Genel 4.',
   },
   scene: {
+    introPhases: ['Derin uzay', 'Dünya yörüngesi', 'İniş · Arizona', 'Atmosfere giriş'],
+    nadir: 'Altındaki nokta',
+    altitude: 'İrtifa',
+    skip: 'Açılışı geç',
     location: 'Meteor Krateri',
     region: 'Arizona, ABD',
     shots: ['Krater', 'İniş', 'Süspansiyon', 'Önden', 'Kenardan bakış', 'Dönüş'],

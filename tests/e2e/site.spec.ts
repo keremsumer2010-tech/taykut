@@ -30,10 +30,25 @@ test.describe('ana sayfa', () => {
     await expect(page.locator('h1')).toHaveText('TAYKUT');
     const stage = page.locator('section[data-state]');
     // GPU'lu tarayıcıda "ready"; başsız/GPU'suz tarayıcıda poster ("still"); WebGL yoksa "failed".
-    await expect(stage).toHaveAttribute('data-state', /ready|still|failed/, { timeout: 45_000 });
-    await expect(page.locator('section[data-state] picture img')).toBeVisible();
+    await expect(stage).toHaveAttribute('data-state', /intro|ready|still|failed/, { timeout: 45_000 });
+    const state = await stage.getAttribute('data-state');
+    if (state === 'still' || state === 'failed')
+      await expect(page.locator('section[data-state] picture img')).toBeVisible(); // GPU'suz: poster
+    else await expect(page.locator('section[data-state] canvas').first()).toBeVisible(); // 3B tuval
     expect(errors).toEqual([]);
     void browserName;
+  });
+
+  test('uzay açılışı oynar; "Açılışı geç" ile krater sahnesine geçer', async ({ page, browserName }) => {
+    test.skip(browserName !== 'chromium', 'yazılımsal WebGL ile yavaş; tek tarayıcıda yeterli');
+    test.setTimeout(150_000);
+    const errors = await collectErrors(page);
+    await page.goto('./?lang=tr&force3d=1');
+    const stage = page.locator('section[data-state]');
+    await expect(stage).toHaveAttribute('data-state', 'intro', { timeout: 60_000 });
+    await page.getByRole('button', { name: 'Açılışı geç' }).click();
+    await expect(stage).toHaveAttribute('data-state', 'ready', { timeout: 140_000 });
+    expect(errors).toEqual([]);
   });
 
   test('3B sahne gerçek CSP altında kurulur (WebAssembly çözücü, Worker, GLB)', async ({

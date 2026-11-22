@@ -54,6 +54,10 @@ export const en = {
     strip: 'MRC 2026 · 4th overall',
   },
   scene: {
+    introPhases: ['Deep space', 'Earth orbit', 'Descent · Arizona', 'Atmospheric entry'],
+    nadir: 'Ground point',
+    altitude: 'Altitude',
+    skip: 'Skip intro',
     location: 'Meteor Crater',
     region: 'Arizona, USA',
     shots: ['Crater', 'Descent', 'Suspension', 'Head-on', 'Rim view', 'Return'],

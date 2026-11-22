@@ -59,6 +59,10 @@ export interface SceneOptions {
   onReady?: () => void;
   /** Döngüde sabit an [0,1): sahne durur (inceleme ve ekran görüntüsü için). */
   fixedT?: number | undefined;
+  /** Duraklatılmış başla (açılış oynarken arka planda hazır bekler); setPlaying(true) ile döngü 0'dan başlar. */
+  startPaused?: boolean;
+  /** Cihaz animasyonu kaldıramıyor: sahne sabit kareye geçti. */
+  onSlow?: () => void;
 }
 
 const LOOP_S = 54; // tam döngü süresi
@@ -449,15 +453,37 @@ export async function startCraterScene(container: HTMLElement, opts: SceneOption
 
   // ---- döngü
   const clock = new THREE.Clock();
-  let running = !opts.reducedMotion && opts.fixedT === undefined;
+  let running = !opts.reducedMotion && opts.fixedT === undefined && !opts.startPaused;
   let visible = true;
   let tLoop = opts.fixedT ?? (opts.reducedMotion ? 0.4 : 0);
   let lastTel = 0;
   let prevDist = 0;
   let raf = 0;
 
+  // Yavaş cihaz koruması: 30 karelik ortalama < 10 kare/sn → önce çözünürlük 1×, yine yavaşsa sabit kare
+  let probeN = 0;
+  let probeSum = 0;
+  let degraded = 0;
   function frame() {
-    const dt = Math.min(clock.getDelta(), 0.05);
+    const raw = clock.getDelta();
+    const dt = Math.min(raw, 0.05);
+    if (running && degraded < 2) {
+      if (++probeN > 3) probeSum += raw;
+      if (probeN === 33) {
+        if (probeSum / 30 > 0.1) {
+          degraded++;
+          if (degraded === 1) {
+            renderer.setPixelRatio(1);
+            resize();
+          } else {
+            running = false;
+            opts.onSlow?.();
+          }
+        }
+        probeN = 0;
+        probeSum = 0;
+      }
+    }
     if (running) tLoop = (tLoop + dt / LOOP_S) % 1;
     // Rover döngünün %15'inden %97'sine kadar sürer; dönüş anı geniş çekimde (görünmez) olur.
     const s = smootherstep((tLoop - 0.12) / 0.86) * 0.999;
@@ -554,6 +580,14 @@ export async function startCraterScene(container: HTMLElement, opts: SceneOption
   const idle = (cb: () => void) =>
     'requestIdleCallback' in window ? requestIdleCallback(cb, { timeout: 4000 }) : setTimeout(cb, 1500);
   idle(makeEnvironment);
+
+  // Kayıt kancası (yalnız ?capture): referans video üretimi için döngünün istenen anını çizer (tools/stage/record.mjs)
+  if (new URLSearchParams(location.search).has('capture')) {
+    (window as unknown as { __craterAt: (t: number) => void }).__craterAt = (t: number) => {
+      tLoop = t;
+      frame();
+    };
+  }
 
   return {
     setPlaying(p: boolean) {
